@@ -1,82 +1,86 @@
-import React, { Component } from 'react'
-import {
-  Button,
-  Form,
-  InputOnChangeData,
-  SemanticShorthandItem,
-  LabelProps
-} from 'semantic-ui-react'
+import React, { Component, ChangeEvent } from 'react'
+import { TextField, Button } from '@material-ui/core'
 
 interface IState {
   email: string;
   password: string;
-  error: SemanticShorthandItem<LabelProps>
+  errorMessages?: {
+    [key: string]: string
+  }
 }
 
 export class LoginForm extends Component {
 
   state: IState = {
     email: '',
-    password: '',
-    error: null
+    password: ''
   }
 
-  handleChange(name: string, input: InputOnChangeData) {
-    return this.setState({ [name]: input.value })
+  handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, name: string) {
+    return this.setState({ [name]: event.target.value })
   }
 
   validateEmail() {
     const { email } = this.state
+    console.log('email', email)
     const regex = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
     if (regex.test(email)) {
-      return this.setState({ error: null })
+      return this.setState({ errorMessages: null })
     }
     this.setState({
-      error: {
-        content: 'Insira um email válido',
-        pointing: 'below',
+      errorMessages: {
+        email: 'Email inválido'
       }
     })
   }
 
+  getLabel(fieldName: string, labelValue: string) {
+    const { errorMessages } = this.state
+    if (errorMessages) {
+      return errorMessages[fieldName]
+    }
+    return labelValue
+  }
+
   render() {
-    const { email, password, error } = this.state
+    const { email, password, errorMessages } = this.state
     return (
-      <Form>
-        <Form.Input
-          required
-          label='Email'
+      <form>
+        <TextField
+          fullWidth
+          error={errorMessages && !!errorMessages.email}
+          id='outlined-email-input'
+          label={this.getLabel('email', 'Email')}
+          type='email'
+          name='email'
+          autoComplete='email'
+          margin='normal'
+          variant='outlined'
           value={email}
-          placeholder='Digite seu email'
-          error={error}
-          onChange={(
-            event: React.ChangeEvent<HTMLInputElement>,
-            input: InputOnChangeData
-          ) => this.handleChange('email', input)}
+          onChange={(event) => this.handleChange(event, 'email')}
           onBlur={() => this.validateEmail()}
         />
-        <Form.Input
-          required
-          label='Senha'
-          value={password}
-          placeholder='Digite sua senha'
-          autoComplete='new-password'
+        <TextField
+          fullWidth
+          id='outlined-password-input'
+          label='Password'
           type='password'
-          onChange={(
-            event: React.ChangeEvent<HTMLInputElement>,
-            input: InputOnChangeData
-          ) => this.handleChange('password', input)}
+          autoComplete='current-password'
+          margin='normal'
+          variant='outlined'
+          value={password}
+          onChange={(event) => this.handleChange(event, 'password')}
         />
         <div className='center'>
-          <Button
-            type='submit'
-            primary
+          <Button 
+            variant='contained'
+            color='primary'
             size='large'
-          > 
+          >
             Entrar
           </Button>
         </div>
-      </Form>
+      </form>
     )
   }
 }
