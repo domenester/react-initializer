@@ -7,17 +7,17 @@ import {
   HomeRoute
 } from './routes';
 
-import './App.css';
+import './App.scss';
 
 export default class App extends React.Component<{}, {}>{
   render() {
     return (
       <BrowserRouter>
         <PrivateRoute
-          routeProps = {{exact: true, path: "/"}}
+          routeProps = {{exact: true, path: '/'}}
           component={HomeRoute}
         />
-        <Route exact path="/login" component={LoginRoute} />
+        <Route exact path='/login' component={LoginRoute} />
       </BrowserRouter>
     );
   }

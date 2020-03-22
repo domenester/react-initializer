@@ -1,12 +1,14 @@
-import React from 'react';
-// import LoginForm from '../../forms/login';
-// import { defaultRender } from '../utils';
+import React, { Component } from 'react';
+import {
+  LoginForm
+} from '../../components'
+import './login.scss'
 
-export class LoginRoute extends React.Component<{}, {}> {
+export class LoginRoute extends Component {
   render() {
     return (
       <div className="login-content">
-        Login Page
+        <LoginForm/>
       </div>
     )
   }
