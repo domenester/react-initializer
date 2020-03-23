@@ -9,10 +9,9 @@ interface IProps {
 
 export class PrivateRoute extends React.Component<IProps, {}> {
 
-  private authService = AuthService();
-
   render() {
-    const { isAuthenticated } = this.authService
+    const authService = AuthService();
+    const { isAuthenticated } = authService
     if (!isAuthenticated()) {
       return <Redirect to="/login" />;
     }

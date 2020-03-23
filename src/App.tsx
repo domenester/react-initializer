@@ -8,17 +8,24 @@ import {
 } from './routes';
 
 import './App.scss';
+import { StateProvider } from './state-handler';
 
-export default class App extends React.Component<{}, {}>{
+export default class App extends React.Component {
   render() {
     return (
-      <BrowserRouter>
-        <PrivateRoute
-          routeProps = {{exact: true, path: '/'}}
-          component={HomeRoute}
-        />
-        <Route exact path='/login' component={LoginRoute} />
-      </BrowserRouter>
+      <StateProvider>
+        <BrowserRouter> 
+          <PrivateRoute
+            routeProps = {{exact: true, path: '/'}}
+            component={HomeRoute}
+          />
+          <Route
+            exact
+            path='/login'
+            component={LoginRoute}
+          />
+        </BrowserRouter>
+      </StateProvider>
     );
   }
 }

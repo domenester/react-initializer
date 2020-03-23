@@ -1,5 +1,8 @@
 import React, { Component, ChangeEvent } from 'react'
 import { TextField, Button } from '@material-ui/core'
+import { AuthService } from '../../../services'
+import { withRouter } from 'react-router'
+import { StateContext } from '../../../state-handler'
 
 interface IState {
   email: string;
@@ -9,7 +12,9 @@ interface IState {
   }
 }
 
-export class LoginForm extends Component {
+class LoginForm extends Component<any, any> {
+
+  static contextType = StateContext
 
   state: IState = {
     email: '',
@@ -22,7 +27,6 @@ export class LoginForm extends Component {
 
   validateEmail() {
     const { email } = this.state
-    console.log('email', email)
     const regex = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
     if (regex.test(email)) {
       return this.setState({ errorMessages: null })
@@ -42,10 +46,22 @@ export class LoginForm extends Component {
     return labelValue
   }
 
+  async onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const { dispatch } = this.context
+    const authService = AuthService()
+    const { email, password } = this.state
+    const userLogged = await authService.login({email, password})
+    if (userLogged) {
+      dispatch('setUser', userLogged)
+      this.props.history.push('/')
+    }
+  }
+
   render() {
     const { email, password, errorMessages } = this.state
     return (
-      <form>
+      <form onSubmit={(event) => this.onSubmit(event)}>
         <TextField
           fullWidth
           error={errorMessages && !!errorMessages.email}
@@ -58,7 +74,7 @@ export class LoginForm extends Component {
           variant='outlined'
           value={email}
           onChange={(event) => this.handleChange(event, 'email')}
-          onBlur={() => this.validateEmail()}
+          onBlur={() => email && this.validateEmail()}
         />
         <TextField
           fullWidth
@@ -72,7 +88,8 @@ export class LoginForm extends Component {
           onChange={(event) => this.handleChange(event, 'password')}
         />
         <div className='center'>
-          <Button 
+          <Button
+            type='submit'
             variant='contained'
             color='primary'
             size='large'
@@ -84,3 +101,5 @@ export class LoginForm extends Component {
     )
   }
 }
+
+export default withRouter(LoginForm)

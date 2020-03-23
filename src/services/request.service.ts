@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 class RequestService {
-  url = 'http://localhost:3000'
+  url = process.env.REACT_APP_API_URL
 
   options() {
     return {

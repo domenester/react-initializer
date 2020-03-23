@@ -1,15 +1,13 @@
 import RequestService from './request.service';
+import AuthServiceMocked from './mocks/auth.service.mock'
 
 class AuthService {
   requestService = RequestService()
 
-  login(body = {}) {
-    return this.requestService.post('/login', body)
-      .catch(() => {
-        const user = { name: 'Diogo', role: 'admin' };
-        localStorage.setItem('user', JSON.stringify(user));
-        return user;
-      });
+  async login(body = {}) {
+    const user = await this.requestService.post('/login', body)
+    localStorage.setItem('user', JSON.stringify(user));
+    return user;
   }
 
   isAuthenticated() {
@@ -17,4 +15,9 @@ class AuthService {
   }
 }
 
-export default () => new AuthService();
+export default () => {
+  if (Boolean(process.env.REACT_APP_REQUEST_MOCKED)) {
+    return new AuthServiceMocked()
+  }
+  return new AuthService();
+}
