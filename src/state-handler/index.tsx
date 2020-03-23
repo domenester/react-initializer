@@ -1,7 +1,9 @@
-import UserStateHandler from './user'
+import {
+  UserReducers
+} from './user'
 
 export default {
-  ...UserStateHandler
+  ...UserReducers
 }
 
 export * from './state-provider'

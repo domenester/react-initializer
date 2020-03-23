@@ -5,9 +5,9 @@ import { TStateHandler } from '../interfaces'
 
 const StateContext = React.createContext({})
 
-export class StateProvider extends Component {
+class StateProvider extends Component {
 
-  state = initialStates()
+  state = initialStates
   stateHandlers: TStateHandler = StateHandlers
 
   render() {
@@ -16,7 +16,7 @@ export class StateProvider extends Component {
     return (
       <StateContext.Provider
         value={{
-          dispatch: (type: string, payload: any): any => {
+          dispatch: (type: string, payload: any): void => {
             if (!this.stateHandlers[type]) {
               throw new Error(`Type doesn't exists to dispatch in StateProvider`)
             }
@@ -31,4 +31,7 @@ export class StateProvider extends Component {
   }
 }
 
-export { StateContext }
+export {
+  StateProvider,
+  StateContext
+}

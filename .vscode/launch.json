@@ -7,9 +7,9 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
+      "name": "Debug Chrome",
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}/react-initializer/src"
+      "webRoot": "${workspaceFolder}/src"
     }
   ]
 }

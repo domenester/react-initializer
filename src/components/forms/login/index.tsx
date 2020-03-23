@@ -1,8 +1,8 @@
 import React, { Component, ChangeEvent } from 'react'
 import { TextField, Button } from '@material-ui/core'
 import { AuthService } from '../../../services'
-import { withRouter } from 'react-router'
 import { StateContext } from '../../../state-handler'
+import { withRouter } from 'react-router-dom'
 
 interface IState {
   email: string;
@@ -54,7 +54,8 @@ class LoginForm extends Component<any, any> {
     const userLogged = await authService.login({email, password})
     if (userLogged) {
       dispatch('setUser', userLogged)
-      this.props.history.push('/')
+      this.props.history.push('/', this.state)
+      window.location.reload()
     }
   }
 

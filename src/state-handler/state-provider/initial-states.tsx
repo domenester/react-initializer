@@ -1,3 +1,5 @@
-export default () => ({
-  user: JSON.parse(localStorage.getItem('user') || '{}'),
-})
+import { UserInitialState } from '../user'
+
+export default {
+  ...UserInitialState()
+}

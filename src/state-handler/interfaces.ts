@@ -1,3 +1,3 @@
 export type TStateHandler = {
-  [key: string]: (setState: Function, payload: any) => any
+  [key: string]: (setState: Function, payload: any) => void
 }
