@@ -10,19 +10,20 @@ import {
 
 import './App.scss';
 import { StateProvider } from './state-handler';
+import { renderPage } from './utils'
 
 export default () => (
   <StateProvider>
-    <Router history={customHistory}> 
+    <Router history={customHistory}>
       <PrivateRoute
         routeProps = {{exact: true, path: '/'}}
-        component={HomeRoute}
+        component={() => renderPage(HomeRoute)}
       />
       <Route
         exact
         path='/login'
-        component={LoginRoute}
+        component={() => renderPage(LoginRoute)}
       />
     </Router>
   </StateProvider>
-);
+)

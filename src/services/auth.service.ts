@@ -1,5 +1,6 @@
 import RequestService from './request.service';
 import history from './history.service'
+import { userDefault } from '../mocks'
 
 class AuthService {
   requestService = RequestService()
@@ -23,9 +24,8 @@ class AuthService {
 class AuthServiceMocked extends AuthService {
   requestService = RequestService()
   async login() {
-    const user = { name: 'User Mocked', role: 'admin' }
-    localStorage.setItem('user', JSON.stringify(user));
-    return user as any
+    localStorage.setItem('user', JSON.stringify(userDefault));
+    return { data: userDefault } as any
   }
 }
 

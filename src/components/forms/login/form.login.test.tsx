@@ -1,0 +1,38 @@
+import React from 'react';
+import LoginForm from './index';
+import { fireEvent, act } from '@testing-library/react';
+import { userDefault } from '../../../mocks'
+import { renderWithRouterAndContext } from '../../../utils'
+import { AuthService } from '../../../services'
+
+describe('Form Login Testes', () => {
+  const authService = AuthService()
+  it.only("expect to not be authenticated after login with invalid email", async () => {
+    const { getByTestId } = renderWithRouterAndContext(<LoginForm />);
+    const emailInput = getByTestId('emailInput')
+    const passwordInput = getByTestId('passwordInput')
+    const buttonSubmit = getByTestId('buttonSubmit')
+    expect(authService.isAuthenticated()).toBe(false)
+    await act(async () => {
+      fireEvent.change(emailInput, { target: { value: 'invalidemail' } })
+      fireEvent.blur(emailInput)
+      fireEvent.change(passwordInput, { target: { value: userDefault.password } })
+      fireEvent.click(buttonSubmit)
+    })
+    expect(authService.isAuthenticated()).toBe(true)
+  })
+
+  it("expect to be authenticated after login", async () => {
+    const { getByTestId } = renderWithRouterAndContext(<LoginForm />);
+    const emailInput = getByTestId('emailInput')
+    const passwordInput = getByTestId('passwordInput')
+    const buttonSubmit = getByTestId('buttonSubmit');
+    expect(authService.isAuthenticated()).toBe(false)
+    await act(async () => {
+      fireEvent.change(emailInput, { target: { value: userDefault.email } });
+      fireEvent.change(passwordInput, { target: { value: userDefault.password } });
+      fireEvent.click(buttonSubmit);
+    })
+    expect(authService.isAuthenticated()).toBe(true)
+  })
+})

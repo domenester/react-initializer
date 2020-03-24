@@ -3,6 +3,7 @@ import { TextField, Button } from '@material-ui/core'
 import { AuthService } from '../../../services'
 import { useStateValue } from '../../../state-handler'
 import { useHistory } from 'react-router-dom'
+import { isNodeEnvTest } from '../../../utils'
 
 export default function LoginForm () {
 
@@ -14,15 +15,13 @@ export default function LoginForm () {
   const initialErrorMessages: { [key: string]: any } = {}
   const [ errorMessages, setErrorMessages ] = useState(initialErrorMessages)
 
-  const validateEmail = ()=>  {
+  const validateEmail = () => {
     const regex = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
     if (regex.test(email)) {
       return setErrorMessages({})
     }
     setErrorMessages({
-      errorMessages: {
-        email: 'Email inválido'
-      }
+      email: 'Email inválido'
     })
   }
 
@@ -33,8 +32,23 @@ export default function LoginForm () {
     return labelValue
   }
 
+  const formatSnackBarMessages = () => {
+    return Object.keys(errorMessages).map(key => errorMessages[key]).join(', ')
+  }
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (Object.keys(errorMessages).length) {
+      return dispatch({
+        type: 'setSnackbarOpen',
+        payload: {
+          open: true,
+          message: formatSnackBarMessages(),
+          severity: 'error'
+        }
+      })
+    }
+
     const userLogged = await authService.login({email, password})
     if (userLogged) {
       dispatch({ type: 'setUser', payload: userLogged })
@@ -42,7 +56,7 @@ export default function LoginForm () {
       /**
        * TODO: Find a way to app load home component to exclude this page refresh
        */
-      window.location.reload()
+      !isNodeEnvTest() && window.location.reload()
     }
   }
 
@@ -62,6 +76,7 @@ export default function LoginForm () {
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         onBlur={() => email && validateEmail()}
+        inputProps={{ 'data-testid': 'emailInput' }}
       />
       <TextField
         fullWidth
@@ -69,11 +84,13 @@ export default function LoginForm () {
         id='outlined-password-input'
         label='Password'
         type='password'
+        name='password'
         autoComplete='current-password'
         margin='normal'
         variant='outlined'
         value={password}
         onChange={(event) => setPassword(event.target.value)}
+        inputProps={{ 'data-testid': 'passwordInput' }}
       />
       <div className='center'>
         <Button
@@ -81,6 +98,7 @@ export default function LoginForm () {
           variant='contained'
           color='primary'
           size='large'
+          data-testid={'buttonSubmit'}
         >
           Entrar
         </Button>
