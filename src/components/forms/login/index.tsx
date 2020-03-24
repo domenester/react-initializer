@@ -8,7 +8,7 @@ export default function LoginForm () {
 
   const authService = AuthService()
   const history = useHistory();
-  const { state, dispatch } = useStateValue();
+  const { dispatch } = useStateValue();
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
   const initialErrorMessages: { [key: string]: any } = {}
