@@ -1,6 +1,9 @@
 export default {
-  setUser: (setState: Function, payload: any) => {
+  setUser: (state: any, payload: any) => {
     localStorage.setItem('user', JSON.stringify(payload))
-    return setState({user: payload})
+    return {
+      ...state,
+      user: payload,
+    }
   }
 }

@@ -1,11 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
+import MiniDrawer from '../../components/sidebar'
 
-export class HomeRoute extends Component {
-  render() {
-    return (
-      <div>
-        Home Route
-      </div>
-    )
-  }
-}
+export const HomeRoute = () => (
+  <MiniDrawer/>
+)

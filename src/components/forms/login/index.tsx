@@ -1,81 +1,62 @@
-import React, { Component, ChangeEvent } from 'react'
+import React, { useState } from 'react'
 import { TextField, Button } from '@material-ui/core'
 import { AuthService } from '../../../services'
-import { StateContext } from '../../../state-handler'
-import { withRouter } from 'react-router-dom'
+import { useStateValue } from '../../../state-handler'
+import { useHistory } from 'react-router-dom'
 
-interface IState {
-  email: string;
-  password: string;
-  errorMessages?: {
-    [key: string]: string
-  }
-}
+export default function LoginForm () {
 
-class LoginForm extends Component<any, any> {
+  const authService = AuthService()
+  const history = useHistory();
+  const { state, dispatch } = useStateValue();
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const initialErrorMessages: { [key: string]: any } = {}
+  const [ errorMessages, setErrorMessages ] = useState(initialErrorMessages)
 
-  static contextType = StateContext
-
-  state: IState = {
-    email: '',
-    password: ''
-  }
-
-  handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, name: string) {
-    return this.setState({ [name]: event.target.value })
-  }
-
-  validateEmail() {
-    const { email } = this.state
+  function validateEmail() {
     const regex = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
     if (regex.test(email)) {
-      return this.setState({ errorMessages: null })
+      return setErrorMessages({})
     }
-    this.setState({
+    setErrorMessages({
       errorMessages: {
         email: 'Email inválido'
       }
     })
   }
 
-  getLabel(fieldName: string, labelValue: string) {
-    const { errorMessages } = this.state
-    if (errorMessages) {
+  function getLabel(fieldName: string, labelValue: string) {
+    if (Object.keys(errorMessages).length) {
       return errorMessages[fieldName]
     }
     return labelValue
   }
 
-  async onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const { dispatch } = this.context
-    const authService = AuthService()
-    const { email, password } = this.state
     const userLogged = await authService.login({email, password})
     if (userLogged) {
-      dispatch('setUser', userLogged)
-      this.props.history.push('/', this.state)
+      dispatch({ type: 'setUser', payload: userLogged })
+      history.push('/')
       window.location.reload()
     }
   }
-
-  render() {
-    const { email, password, errorMessages } = this.state
     return (
-      <form onSubmit={(event) => this.onSubmit(event)}>
+      <form onSubmit={(event) => onSubmit(event)}>
         <TextField
           fullWidth
-          error={errorMessages && !!errorMessages.email}
+          error={!!errorMessages && !!errorMessages.email}
           id='outlined-email-input'
-          label={this.getLabel('email', 'Email')}
+          label={getLabel('email', 'Email')}
           type='email'
           name='email'
           autoComplete='email'
           margin='normal'
           variant='outlined'
           value={email}
-          onChange={(event) => this.handleChange(event, 'email')}
-          onBlur={() => email && this.validateEmail()}
+          onChange={(event) => setEmail(event.target.value)}
+          onBlur={() => email && validateEmail()}
         />
         <TextField
           fullWidth
@@ -86,7 +67,7 @@ class LoginForm extends Component<any, any> {
           margin='normal'
           variant='outlined'
           value={password}
-          onChange={(event) => this.handleChange(event, 'password')}
+          onChange={(event) => setPassword(event.target.value)}
         />
         <div className='center'>
           <Button
@@ -100,7 +81,4 @@ class LoginForm extends Component<any, any> {
         </div>
       </form>
     )
-  }
 }
-
-export default withRouter(LoginForm)

@@ -1,37 +1,32 @@
-import React, { Component } from 'react'
-import initialStates from './initial-states'
-import StateHandlers from '..'
-import { TStateHandler } from '../interfaces'
+import React, { createContext, useContext, useReducer } from 'react';
+import reducers from './reducer-provider'
+import initialStates from './initial-states-provider'
 
-const StateContext = React.createContext({})
-
-class StateProvider extends Component {
-
-  state = initialStates
-  stateHandlers: TStateHandler = StateHandlers
-
-  render() {
-    const { children } = this.props
-
-    return (
-      <StateContext.Provider
-        value={{
-          dispatch: (type: string, payload: any): void => {
-            if (!this.stateHandlers[type]) {
-              throw new Error(`Type doesn't exists to dispatch in StateProvider`)
-            }
-            this.stateHandlers[type](this.setState.bind(this), payload)
-          },
-          ...this.state
-        }}
-      >
-        {children}
-      </StateContext.Provider>
-    )
-  }
+interface IContextProps {
+  state: any;
+  dispatch: (
+    { type, payload }: { type:string, payload: any }) => void;
 }
+
+const StateContext = createContext({} as IContextProps);
+
+const StateProvider = ({ children }: any) => {
+
+  const [state, dispatch] = useReducer(reducers, initialStates);
+
+  const value = { state, dispatch };
+
+  return (
+    <StateContext.Provider value={value}>
+      {children}
+    </StateContext.Provider>
+  )
+};
+
+const useStateValue = () => useContext(StateContext);
 
 export {
+  StateContext,
   StateProvider,
-  StateContext
-}
+  useStateValue
+};
