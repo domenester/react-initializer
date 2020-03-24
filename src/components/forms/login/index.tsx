@@ -14,7 +14,7 @@ export default function LoginForm () {
   const initialErrorMessages: { [key: string]: any } = {}
   const [ errorMessages, setErrorMessages ] = useState(initialErrorMessages)
 
-  function validateEmail() {
+  const validateEmail = ()=>  {
     const regex = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
     if (regex.test(email)) {
       return setErrorMessages({})
@@ -26,14 +26,14 @@ export default function LoginForm () {
     })
   }
 
-  function getLabel(fieldName: string, labelValue: string) {
+  const getLabel = (fieldName: string, labelValue: string) => {
     if (Object.keys(errorMessages).length) {
       return errorMessages[fieldName]
     }
     return labelValue
   }
 
-  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const userLogged = await authService.login({email, password})
     if (userLogged) {
@@ -42,43 +42,44 @@ export default function LoginForm () {
       window.location.reload()
     }
   }
-    return (
-      <form onSubmit={(event) => onSubmit(event)}>
-        <TextField
-          fullWidth
-          error={!!errorMessages && !!errorMessages.email}
-          id='outlined-email-input'
-          label={getLabel('email', 'Email')}
-          type='email'
-          name='email'
-          autoComplete='email'
-          margin='normal'
-          variant='outlined'
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          onBlur={() => email && validateEmail()}
-        />
-        <TextField
-          fullWidth
-          id='outlined-password-input'
-          label='Password'
-          type='password'
-          autoComplete='current-password'
-          margin='normal'
-          variant='outlined'
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <div className='center'>
-          <Button
-            type='submit'
-            variant='contained'
-            color='primary'
-            size='large'
-          >
-            Entrar
-          </Button>
-        </div>
-      </form>
-    )
+
+  return (
+    <form onSubmit={(event) => onSubmit(event)}>
+      <TextField
+        fullWidth
+        error={!!errorMessages && !!errorMessages.email}
+        id='outlined-email-input'
+        label={getLabel('email', 'Email')}
+        type='email'
+        name='email'
+        autoComplete='email'
+        margin='normal'
+        variant='outlined'
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
+        onBlur={() => email && validateEmail()}
+      />
+      <TextField
+        fullWidth
+        id='outlined-password-input'
+        label='Password'
+        type='password'
+        autoComplete='current-password'
+        margin='normal'
+        variant='outlined'
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+      />
+      <div className='center'>
+        <Button
+          type='submit'
+          variant='contained'
+          color='primary'
+          size='large'
+        >
+          Entrar
+        </Button>
+      </div>
+    </form>
+  )
 }

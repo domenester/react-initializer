@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Route, RouteProps, Redirect } from 'react-router-dom';
 import { AuthService } from '../../services';
+import MiniDrawer from '../../components/sidebar'
 
 interface IProps {
   component: FunctionComponent,
@@ -15,10 +16,18 @@ export const PrivateRoute = ({ component, routeProps }: IProps) => {
     return <Redirect to="/login" />;
   }
 
+  const Component = component
+
   return (
     <Route
       {...routeProps}
-      component={component}
+      render={
+        () => (
+          <MiniDrawer>
+            <Component />
+          </MiniDrawer>
+        )
+      }
     />
   );
 }
