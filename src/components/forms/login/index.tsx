@@ -39,6 +39,9 @@ export default function LoginForm () {
     if (userLogged) {
       dispatch({ type: 'setUser', payload: userLogged })
       history.push('/')
+      /**
+       * TODO: Find a way to app load home component to exclude this page refresh
+       */
       window.location.reload()
     }
   }
@@ -47,6 +50,7 @@ export default function LoginForm () {
     <form onSubmit={(event) => onSubmit(event)}>
       <TextField
         fullWidth
+        required
         error={!!errorMessages && !!errorMessages.email}
         id='outlined-email-input'
         label={getLabel('email', 'Email')}
@@ -61,6 +65,7 @@ export default function LoginForm () {
       />
       <TextField
         fullWidth
+        required
         id='outlined-password-input'
         label='Password'
         type='password'

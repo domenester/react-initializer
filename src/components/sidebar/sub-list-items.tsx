@@ -5,7 +5,9 @@ import { ISideBarListItem } from './interfaces'
 const subListItems: Array<ISideBarListItem> = [
   {
     text: 'Logout',
-    icon: <ExitToAppIcon />
+    icon: <ExitToAppIcon />,
+    link: '/logout',
+    isLogout: true
   }
 ]
 

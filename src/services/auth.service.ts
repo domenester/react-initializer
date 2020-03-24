@@ -1,5 +1,5 @@
 import RequestService from './request.service';
-import AuthServiceMocked from './mocks/auth.service.mock'
+import history from './history.service'
 
 class AuthService {
   requestService = RequestService()
@@ -10,12 +10,26 @@ class AuthService {
     return user;
   }
 
+  logout() {
+    localStorage.removeItem('user');
+    history.push('/login')
+  }
+
   isAuthenticated() {
     return !!localStorage.getItem('user');
   }
 }
 
-export default () => {
+class AuthServiceMocked extends AuthService {
+  requestService = RequestService()
+  async login() {
+    const user = { name: 'User Mocked', role: 'admin' }
+    localStorage.setItem('user', JSON.stringify(user));
+    return user as any
+  }
+}
+
+export default (): AuthService => {
   if (Boolean(process.env.REACT_APP_REQUEST_MOCKED)) {
     return new AuthServiceMocked()
   }

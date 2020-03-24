@@ -5,7 +5,8 @@ import { ISideBarListItem } from './interfaces'
 const listItems: Array<ISideBarListItem> = [
   {
     text: 'User',
-    icon: <PersonIcon />
+    icon: <PersonIcon />,
+    link: '/user'
   }
 ]
 

@@ -20,6 +20,8 @@ import customStyle from './style'
 import ListItems from './list-items'
 import SubListItems from './sub-list-items'
 import { ISideBarListItem } from './interfaces';
+import { Link } from 'react-router-dom'
+import { AuthService } from '../../services';
 
 const themeCreated = createMuiTheme(
   customTheme()
@@ -35,6 +37,7 @@ export default function MiniDrawer(
   const classes = useStyles();
   const theme = themeCreated;
   const [open, setOpen] = React.useState(false);
+  const { logout } = AuthService()
 
   const appTitle = process.env.REACT_APP_TITLE
 
@@ -46,17 +49,30 @@ export default function MiniDrawer(
     setOpen(false);
   };
 
-  const buildListItem = (item: ISideBarListItem) => (
-    <ListItem 
-      button
-      key={item.text}
-    >
-      <ListItemIcon>
-        {item.icon}  
-      </ListItemIcon>
-      <ListItemText primary={item.text} />
-    </ListItem>
+  const buildListItem = (
+    item: ISideBarListItem,
+    action?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  ) => (
+    <div onClick={action} key={item.text}>
+      <ListItem button >
+        <ListItemIcon>
+          {item.icon}  
+        </ListItemIcon>
+        <ListItemText primary={item.text} />
+      </ListItem>
+    </div>
   )
+
+  const buildListLinkItem = (item: ISideBarListItem, key: number) => {
+    if (!item.isLogout) {
+      return (
+        <Link to={item.link} key={key}>
+          {buildListItem(item)}
+        </Link>
+      )
+    }
+    return buildListItem(item, logout)
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -105,11 +121,11 @@ export default function MiniDrawer(
           </div>
           <Divider />
           <List>
-            {ListItems.map((item: ISideBarListItem) => buildListItem(item))}
+            {ListItems.map((item: ISideBarListItem, key) => buildListLinkItem(item, key))}
           </List>
           <Divider />
           <List>
-            {SubListItems.map((item: ISideBarListItem) => buildListItem(item))}
+            {SubListItems.map((item: ISideBarListItem, key) => buildListLinkItem(item, key))}
           </List>
         </Drawer>
         <main className={classes.content}>
