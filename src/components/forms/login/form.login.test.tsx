@@ -5,21 +5,25 @@ import { userDefault } from '../../../mocks'
 import { renderWithRouterAndContext } from '../../../utils'
 import { AuthService } from '../../../services'
 
+import 'mutationobserver-shim';
+(global as any).MutationObserver = window.MutationObserver;
+
 describe('Form Login Testes', () => {
   const authService = AuthService()
-  it.only("expect to not be authenticated after login with invalid email", async () => {
+
+  it("expect to not be authenticated after login with invalid email", async () => {
     const { getByTestId } = renderWithRouterAndContext(<LoginForm />);
     const emailInput = getByTestId('emailInput')
     const passwordInput = getByTestId('passwordInput')
     const buttonSubmit = getByTestId('buttonSubmit')
     expect(authService.isAuthenticated()).toBe(false)
     await act(async () => {
+      fireEvent.click(emailInput)
       fireEvent.change(emailInput, { target: { value: 'invalidemail' } })
-      fireEvent.blur(emailInput)
       fireEvent.change(passwordInput, { target: { value: userDefault.password } })
       fireEvent.click(buttonSubmit)
     })
-    expect(authService.isAuthenticated()).toBe(true)
+    expect(authService.isAuthenticated()).toBe(false)
   })
 
   it("expect to be authenticated after login", async () => {

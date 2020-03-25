@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { TextField, Button } from '@material-ui/core'
 import { AuthService } from '../../../services'
 import { useStateValue } from '../../../state-handler'
@@ -8,45 +9,28 @@ import { isNodeEnvTest } from '../../../utils'
 export default function LoginForm () {
 
   const authService = AuthService()
-  const history = useHistory();
-  const { dispatch } = useStateValue();
+  const history = useHistory()
+  const { dispatch } = useStateValue()
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
-  const initialErrorMessages: { [key: string]: any } = {}
-  const [ errorMessages, setErrorMessages ] = useState(initialErrorMessages)
-
-  const validateEmail = () => {
-    const regex = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
-    if (regex.test(email)) {
-      return setErrorMessages({})
-    }
-    setErrorMessages({
-      email: 'Email inválido'
-    })
-  }
-
-  const getLabel = (fieldName: string, labelValue: string) => {
-    if (Object.keys(errorMessages).length) {
-      return errorMessages[fieldName]
-    }
-    return labelValue
-  }
 
   const formatSnackBarMessages = () => {
-    return Object.keys(errorMessages).map(key => errorMessages[key]).join(', ')
+    return Object.keys(errors)
+      .map(key => errors[key].message).join(', ')
   }
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (Object.keys(errorMessages).length) {
-      return dispatch({
-        type: 'setSnackbarOpen',
-        payload: {
-          open: true,
-          message: formatSnackBarMessages(),
-          severity: 'error'
-        }
-      })
+  const showAlert = () => dispatch({
+    type: 'setSnackbarOpen',
+    payload: {
+      open: true,
+      message: formatSnackBarMessages(),
+      severity: 'error'
+    }
+  })
+
+  const onSubmit = async (values: any) => {
+    if (Object.keys(errors).length) {
+      return showAlert()
     }
 
     const userLogged = await authService.login({email, password})
@@ -60,37 +44,50 @@ export default function LoginForm () {
     }
   }
 
+  const { handleSubmit, register, errors } = useForm();
+
   return (
-    <form onSubmit={(event) => onSubmit(event)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <TextField
+        onChange={(event) => setEmail(event.target.value)}
         fullWidth
-        required
-        error={!!errorMessages && !!errorMessages.email}
-        id='outlined-email-input'
-        label={getLabel('email', 'Email')}
-        type='email'
+        error={!!errors.email}
+        label={'Email'}
         name='email'
         autoComplete='email'
         margin='normal'
         variant='outlined'
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        onBlur={() => email && validateEmail()}
-        inputProps={{ 'data-testid': 'emailInput' }}
+        defaultValue={email}
+        helperText={errors.email ? errors.email.message : ''}
+        inputProps={{
+          ref: register({
+            required: 'Campo Obrigatório',
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+              message: 'Email inválido',
+            },
+          }),
+          'data-testid': 'emailInput'
+        }}
       />
       <TextField
         fullWidth
-        required
-        id='outlined-password-input'
-        label='Password'
+        label='Senha'
+        error={!!errors.password}
         type='password'
         name='password'
         autoComplete='current-password'
         margin='normal'
         variant='outlined'
-        value={password}
+        defaultValue={password}
+        helperText={errors.password ? errors.password.message : ''}
         onChange={(event) => setPassword(event.target.value)}
-        inputProps={{ 'data-testid': 'passwordInput' }}
+        inputProps={{
+          ref: register({
+            required: 'Campo Obrigatório'
+          }),
+          'data-testid': 'passwordInput'
+        }}
       />
       <div className='center'>
         <Button
