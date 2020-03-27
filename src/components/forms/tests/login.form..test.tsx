@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm from './index';
+import LoginForm from '../login';
 import { fireEvent, act } from '@testing-library/react';
 import { userDefault } from '../../../mocks'
 import { renderWithRouterAndContext } from '../../../utils'

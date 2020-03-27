@@ -1,9 +1,10 @@
 export default {
   setUser: (state: any, payload: any) => {
-    localStorage.setItem('user', JSON.stringify(payload))
+    const user = { ...state.user, ...payload }
+    localStorage.setItem('user', JSON.stringify(user))
     return {
       ...state,
-      user: payload,
+      user
     }
   }
 }
