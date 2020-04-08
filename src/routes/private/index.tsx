@@ -1,22 +1,18 @@
 import React, { FunctionComponent } from 'react';
 import { Route, RouteProps, Redirect } from 'react-router-dom';
-import { AuthService } from '../../services';
+import { useAuthServiceValue, AuthServiceProvider } from '../../services';
 import MiniDrawer from '../../components/sidebar'
 
 interface IProps {
-  component: FunctionComponent,
+  Component: FunctionComponent,
   routeProps: RouteProps
 }
 
-export const PrivateRoute = ({ component, routeProps }: IProps) => {
-  const authService = AuthService();
-  const { isAuthenticated } = authService
-
+export const PrivateRouteComponent = ({ Component, routeProps }: IProps) => {
+  const { isAuthenticated } = useAuthServiceValue();
   if (!isAuthenticated()) {
     return <Redirect to="/login" />;
   }
-
-  const Component = component
 
   return (
     <Route
@@ -30,4 +26,15 @@ export const PrivateRoute = ({ component, routeProps }: IProps) => {
       }
     />
   );
+}
+
+export const PrivateRoute = ({ Component, routeProps }: IProps) => {
+  return (
+    <AuthServiceProvider>
+      <PrivateRouteComponent
+        routeProps = {routeProps}
+        Component={Component}
+      />
+    </AuthServiceProvider>
+  )
 }

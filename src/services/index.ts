@@ -1,7 +1,7 @@
-import AuthService from './auth.service';
 import customHistory from './history.service';
 
+export * from './auth.service';
+
 export {
-  AuthService,
   customHistory
 };

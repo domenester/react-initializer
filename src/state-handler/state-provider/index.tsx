@@ -2,10 +2,11 @@ import React, { createContext, useContext, useReducer } from 'react';
 import reducers from './reducer-provider'
 import initialStates from './initial-states-provider'
 
+export type TDispatch =  ({ type, payload }: { type:string, payload: any }) => void;
+
 interface IContextProps {
   state: any;
-  dispatch: (
-    { type, payload }: { type:string, payload: any }) => void;
+  dispatch: TDispatch;
 }
 
 const StateContext = createContext({} as IContextProps);

@@ -17,7 +17,7 @@ export default () => (
     <Router history={customHistory}>
       <PrivateRoute
         routeProps = {{exact: true, path: '/'}}
-        component={() => renderPage(HomeRoute)}
+        Component={() => renderPage(HomeRoute)}
       />
       <Route
         exact

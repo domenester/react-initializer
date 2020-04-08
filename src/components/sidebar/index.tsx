@@ -21,7 +21,7 @@ import ListItems from './list-items'
 import SubListItems from './sub-list-items'
 import { ISideBarListItem } from './interfaces';
 import { Link } from 'react-router-dom'
-import { AuthService } from '../../services';
+import { useAuthServiceValue } from '../../services';
 
 const themeCreated = createMuiTheme(
   customTheme()
@@ -37,7 +37,7 @@ export default function MiniDrawer(
   const classes = useStyles();
   const theme = themeCreated;
   const [open, setOpen] = React.useState(false);
-  const { logout } = AuthService()
+  const { logout } = useAuthServiceValue()
 
   const appTitle = process.env.REACT_APP_TITLE
 

@@ -1,6 +1,10 @@
 import { userDefault } from '../../mocks'
 import { AuthService } from '../'
 
+/**
+ * TODO: Adjust tests according to new service hooks structure
+ */
+
 describe('Auth Service Testes', () => {
   const authService = AuthService()
 

@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextField, Button } from '@material-ui/core'
-import { AuthService } from '../../../services'
+import { useAuthServiceValue } from '../../../services'
 import { useStateValue } from '../../../state-handler'
 import { useHistory } from 'react-router-dom'
 import { isNodeEnvTest } from '../../../utils'
 
 export default function LoginForm () {
 
-  const authService = AuthService()
+  const { login } = useAuthServiceValue()
   const history = useHistory()
   const { dispatch } = useStateValue()
   const [ email, setEmail ] = useState('')
@@ -33,7 +33,7 @@ export default function LoginForm () {
       return showAlert()
     }
 
-    const userLogged = await authService.login({email, password})
+    const userLogged = await login(email, password)
     if (userLogged) {
       dispatch({ type: 'setUser', payload: userLogged })
       history.push('/')
