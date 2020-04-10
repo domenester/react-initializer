@@ -1,11 +1,9 @@
-import React, { createContext, useContext } from 'react';
 import axios from 'axios';
 import { useStateValue } from '../state-handler'
+import ProviderGenerator from '../shared/provider-generator';
 
-const RequestServiceContext = createContext({} as any);
-
-const RequestServiceProvider = ({ children }: any) => {
-
+const buildValue = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { dispatch } = useStateValue()
   const url = process.env.REACT_APP_API_URL
 
@@ -34,6 +32,7 @@ const RequestServiceProvider = ({ children }: any) => {
           }
         })
         console.error(error.response)
+        throw error
       });
   }
 
@@ -45,21 +44,19 @@ const RequestServiceProvider = ({ children }: any) => {
     return axios.delete(`${url}/${path}`, options());
   }
 
-  const value = {
+  return {
     get, post, put, del
   };
+}
 
-  return (
-    <RequestServiceContext.Provider value={value}>
-      {children}
-    </RequestServiceContext.Provider>
-  )
-};
+const providerGenerated = ProviderGenerator(buildValue)
 
-const useRequestServiceValue = () => useContext(RequestServiceContext);
+const RequestServiceProvider = providerGenerated.provider
+const RequestServiceContext = providerGenerated.context
+const useRequestServiceValue = providerGenerated.useValue
 
 export {
-  RequestServiceContext,
   RequestServiceProvider,
+  RequestServiceContext,
   useRequestServiceValue
 };

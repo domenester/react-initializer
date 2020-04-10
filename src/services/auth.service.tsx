@@ -1,23 +1,12 @@
-import React, { createContext, useContext } from 'react';
+import React from 'react';
 import { RequestServiceProvider, useRequestServiceValue } from './request.service';
 import history from './history.service'
+import ProviderGenerator from '../shared/provider-generator';
 
-const AuthServiceContext = createContext({} as any);
-
-const AuthServiceProvider = ({ children }: any) => {
-  return (
-    <RequestServiceProvider>
-      <AuthServiceProvided>
-        {children}
-      </AuthServiceProvided>
-    </RequestServiceProvider>
-  )
-}
-
-const AuthServiceProvided = ({ children }: any) => {
-
+const buildValue = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { post } = useRequestServiceValue()
-
+ 
   const login = async (email: string, password: string) => {
     const user = await post('auth/login', { email, password })
     localStorage.setItem('user', JSON.stringify(user));
@@ -33,23 +22,32 @@ const AuthServiceProvided = ({ children }: any) => {
     return !!localStorage.getItem('user');
   }
 
-  const value = {
+  return {
     login,
     logout,
     isAuthenticated
   }
+}
 
+const providerGenerated = ProviderGenerator( buildValue )
+
+export const AuthServiceProviderGenerated = providerGenerated.provider
+
+const AuthServiceProvider = ({ children }: any) => {
   return (
-      <AuthServiceContext.Provider value={value}>
+    <RequestServiceProvider>
+      <AuthServiceProviderGenerated>
         {children}
-      </AuthServiceContext.Provider>
+      </AuthServiceProviderGenerated>
+    </RequestServiceProvider>
   )
-};
+}
 
-const useAuthServiceValue = () => useContext(AuthServiceContext);
+const AuthServiceContext = providerGenerated.context
+const useAuthServiceValue = providerGenerated.useValue
 
 export {
-  AuthServiceContext,
   AuthServiceProvider,
+  AuthServiceContext,
   useAuthServiceValue
 };

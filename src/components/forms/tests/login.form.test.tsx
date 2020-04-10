@@ -8,6 +8,10 @@ import { AuthService } from '../../../services'
 import 'mutationobserver-shim';
 (global as any).MutationObserver = window.MutationObserver;
 
+/**
+ * TODO: Adjust test to auth service provider structure
+ */
+
 describe('Form Login Testes', () => {
   const authService = AuthService()
 

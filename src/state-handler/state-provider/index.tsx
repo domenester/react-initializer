@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import { useReducer } from 'react';
 import reducers from './reducer-provider'
 import initialStates from './initial-states-provider'
+import ProviderGenerator from '../../shared/provider-generator';
 
 export type TDispatch =  ({ type, payload }: { type:string, payload: any }) => void;
 
@@ -9,25 +10,23 @@ interface IContextProps {
   dispatch: TDispatch;
 }
 
-const StateContext = createContext({} as IContextProps);
-
-const StateProvider = ({ children }: any) => {
-
+const buildValue = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [state, dispatch] = useReducer(reducers, initialStates);
+  return { state, dispatch };
+}
 
-  const value = { state, dispatch };
+const providerGenerated = ProviderGenerator(
+  buildValue,
+  {} as IContextProps
+)
 
-  return (
-    <StateContext.Provider value={value}>
-      {children}
-    </StateContext.Provider>
-  )
-};
-
-const useStateValue = () => useContext(StateContext);
+const StateProvider = providerGenerated.provider;
+const StateContext = providerGenerated.context;
+const useStateValue = providerGenerated.useValue;
 
 export {
-  StateContext,
   StateProvider,
-  useStateValue
-};
+  StateContext,
+  useStateValue,
+}

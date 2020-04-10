@@ -46,7 +46,9 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react-hooks": "^3.2.1",
     "mutationobserver-shim": "^0.3.3",
-    "node-sass": "^4.13.1"
+    "node-sass": "^4.13.1",
+    "react-test-renderer": "^16.13.1"
   }
 }
