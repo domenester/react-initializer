@@ -20,7 +20,7 @@ describe('Auth Service Testes', () => {
       valid.default.email,
       valid.default.password
     )
-    expect(response.data.user.email).toBe(valid.default.email)
+    expect(response.user.email).toBe(valid.default.email)
   })
 
   it('should be authenticated', async () => {

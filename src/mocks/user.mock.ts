@@ -1,6 +1,6 @@
 export const userDefault = {
-  name: 'User Mocked',
-  email: 'usermocked@mail.com',
-  password: '1234',
+  username: 'admin',
+  email: 'admin@mail.com',
+  password: 'admin',
   role: 'admin'
 }

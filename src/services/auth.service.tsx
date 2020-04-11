@@ -8,9 +8,9 @@ const buildValue = () => {
   const { post } = useRequestServiceValue()
  
   const login = async (email: string, password: string) => {
-    const user = await post('auth/login', { email, password })
-    localStorage.setItem('user', JSON.stringify(user));
-    return user;
+    const { data } = await post('auth/login', { email, password })
+    localStorage.setItem('user', JSON.stringify(data.user));
+    return data;
   }
 
   const logout = () => {
