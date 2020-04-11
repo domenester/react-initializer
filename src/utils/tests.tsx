@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { StateProvider } from '../state-handler'
+import { StateProvider } from '../shared/state-handler'
 import { Router } from 'react-router-dom'
 import { customHistory } from '../services'
 

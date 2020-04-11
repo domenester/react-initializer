@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useStateValue } from '../state-handler'
+import { useStateValue } from '../shared/state-handler'
 import ProviderGenerator from '../shared/provider-generator';
 
 const buildValue = () => {

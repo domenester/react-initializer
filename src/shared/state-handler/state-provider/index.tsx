@@ -1,7 +1,7 @@
 import { useReducer } from 'react';
 import reducers from './reducer-provider'
 import initialStates from './initial-states-provider'
-import ProviderGenerator from '../../shared/provider-generator';
+import ProviderGenerator from '../../provider-generator';
 
 export type TDispatch =  ({ type, payload }: { type:string, payload: any }) => void;
 

@@ -24,10 +24,16 @@
     "react-scripts": "3.4.1",
     "typescript": "^3.8.3"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run test:nowatch"
+    }
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:nowatch": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

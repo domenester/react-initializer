@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextField, Button } from '@material-ui/core'
 import { useAuthServiceValue } from '../../../services'
-import { useStateValue } from '../../../state-handler'
+import { useStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
 import { isNodeEnvTest } from '../../../utils'
 
@@ -33,9 +33,9 @@ export default function LoginForm () {
       return showAlert()
     }
 
-    const userLogged = await login(email, password)
-    if (userLogged) {
-      dispatch({ type: 'setUser', payload: userLogged })
+    const response = await login(email, password)
+    if (response) {
+      dispatch({ type: 'setUser', payload: response.user })
       history.push('/')
       /**
        * TODO: Find a way to app load home component to exclude this page refresh

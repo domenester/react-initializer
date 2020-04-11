@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStateValue } from "../state-handler";
+import { useStateValue } from "../shared/state-handler";
 import { snackbarConfig } from "../shared/config";
 import { Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';

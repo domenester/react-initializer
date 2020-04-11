@@ -9,7 +9,7 @@ import {
 } from './routes';
 
 import './App.scss';
-import { StateProvider } from './state-handler';
+import { StateProvider } from './shared/state-handler';
 import { renderPage } from './utils'
 
 export default () => (
