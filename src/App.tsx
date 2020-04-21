@@ -5,7 +5,8 @@ import { customHistory } from './services'
 import {
   PrivateRoute,
   LoginRoute,
-  HomeRoute
+  HomeRoute,
+  ResetPasswordRoute
 } from './routes';
 
 import './App.scss';
@@ -24,6 +25,11 @@ export default () => (
         exact
         path='/forgot-password'
         component={() => renderPage(ForgotPasswordRoute)}
+      />
+      <Route
+        exact
+        path='/reset-password'
+        component={() => renderPage(ResetPasswordRoute)}
       />
       <Route
         exact

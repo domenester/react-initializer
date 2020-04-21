@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { TextField, Button, Link } from '@material-ui/core'
+import EmailInput from '../input/email.input'
+import { Button, Link } from '@material-ui/core'
 import { useStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
 import { usePasswordServiceValue } from '../../../services'
@@ -42,27 +43,11 @@ export default function ForgotPasswordForm () {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='center'>
-      <TextField
-        onChange={(event) => setEmail(event.target.value)}
-        fullWidth
-        error={!!errors.email}
-        label={'Email'}
-        name='email'
-        autoComplete='email'
-        margin='normal'
-        variant='outlined'
+      <EmailInput
+        errors={errors}
+        register={register}
+        setEmail={setEmail}
         defaultValue={email}
-        helperText={errors.email ? errors.email.message : ''}
-        inputProps={{
-          ref: register({
-            required: 'Campo Obrigatório',
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: 'Email inválido',
-            },
-          }),
-          'data-testid': 'emailInput'
-        }}
       />
       <div>
         <Button

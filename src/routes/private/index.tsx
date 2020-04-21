@@ -10,7 +10,10 @@ interface IPrivateRouteComponentProps {
 
 export const PrivateRouteComponent = ({ Component, routeProps }: IPrivateRouteComponentProps) => {
   const { isAuthenticated } = useAuthServiceValue();
-  if (!isAuthenticated()) {
+  if (
+    window.location.pathname === routeProps.path
+    && !isAuthenticated()
+  ) {
     return <Redirect to="/login" />;
   }
 

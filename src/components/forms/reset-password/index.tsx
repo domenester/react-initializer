@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { TextField, Button, Link } from '@material-ui/core'
-import { useAuthServiceValue } from '../../../services'
+import PasswordInput from '../input/password.input'
+import { Button, Link } from '@material-ui/core'
 import { useStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
-import { isNodeEnvTest } from '../../../utils'
-import EmailInput from '../input/email.input'
-import PasswordInput from '../input/password.input'
+import { usePasswordServiceValue } from '../../../services'
+import * as qs from 'qs'
 
-export default function LoginForm () {
+export default function ResetPasswordForm () {
 
-  const { login } = useAuthServiceValue()
+  const { reset } = usePasswordServiceValue()
   const history = useHistory()
   const { dispatch } = useStateValue()
-  const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
 
   const formatSnackBarMessages = () => {
@@ -21,12 +19,12 @@ export default function LoginForm () {
       .map(key => errors[key].message).join(', ')
   }
 
-  const showAlert = () => dispatch({
+  const showAlert = (severity = 'error', message?: string) => dispatch({
     type: 'setSnackbarOpen',
     payload: {
       open: true,
-      message: formatSnackBarMessages(),
-      severity: 'error'
+      message: message || formatSnackBarMessages(),
+      severity
     }
   })
 
@@ -35,14 +33,11 @@ export default function LoginForm () {
       return showAlert()
     }
 
-    const response = await login(email, password)
+    const email = qs.parse(window.location.search, { ignoreQueryPrefix: true }).email
+    const response = await reset(email, password)
     if (response) {
-      dispatch({ type: 'setUser', payload: response.user })
-      history.push('/')
-      /**
-       * TODO: Find a way to app load home component to exclude this page refresh
-       */
-      !isNodeEnvTest() && window.location.reload()
+      showAlert('success', response.message)
+      history.push('/login')
     }
   }
 
@@ -50,17 +45,11 @@ export default function LoginForm () {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='center'>
-      <EmailInput
-        errors={errors}
-        register={register}
-        setEmail={setEmail}
-        defaultValue={email}
-      />
       <PasswordInput
         errors={errors}
         register={register}
         setPassword={setPassword}
-        defaultValue={email}
+        defaultValue={password}
       />
       <div>
         <Button
@@ -70,15 +59,15 @@ export default function LoginForm () {
           size='large'
           data-testid={'buttonSubmit'}
         >
-          Entrar
+          Reset Password
         </Button>
       </div>
       <Link
         component="button"
         type="button"
-        onClick={() => history.push('/forgot-password')}
+        onClick={() => history.push('/login')}
       >
-        Forgot Password?
+        Login
       </Link>
     </form>
   )
