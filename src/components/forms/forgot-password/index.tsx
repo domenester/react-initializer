@@ -1,30 +1,28 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextField, Button, Link } from '@material-ui/core'
-import { useAuthServiceValue } from '../../../services'
 import { useStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
-import { isNodeEnvTest } from '../../../utils'
+import { usePasswordServiceValue } from '../../../services'
 
-export default function LoginForm () {
+export default function ForgotPasswordForm () {
 
-  const { login } = useAuthServiceValue()
+  const { requestReset } = usePasswordServiceValue()
   const history = useHistory()
   const { dispatch } = useStateValue()
   const [ email, setEmail ] = useState('')
-  const [ password, setPassword ] = useState('')
 
   const formatSnackBarMessages = () => {
     return Object.keys(errors)
       .map(key => errors[key].message).join(', ')
   }
 
-  const showAlert = () => dispatch({
+  const showAlert = (severity = 'error', message?: string) => dispatch({
     type: 'setSnackbarOpen',
     payload: {
       open: true,
-      message: formatSnackBarMessages(),
-      severity: 'error'
+      message: message || formatSnackBarMessages(),
+      severity
     }
   })
 
@@ -33,14 +31,10 @@ export default function LoginForm () {
       return showAlert()
     }
 
-    const response = await login(email, password)
+    const response = await requestReset(email)
     if (response) {
-      dispatch({ type: 'setUser', payload: response.user })
-      history.push('/')
-      /**
-       * TODO: Find a way to app load home component to exclude this page refresh
-       */
-      !isNodeEnvTest() && window.location.reload()
+      showAlert('success', response.message)
+      history.push('/login')
     }
   }
 
@@ -70,25 +64,6 @@ export default function LoginForm () {
           'data-testid': 'emailInput'
         }}
       />
-      <TextField
-        fullWidth
-        label='Senha'
-        error={!!errors.password}
-        type='password'
-        name='password'
-        autoComplete='current-password'
-        margin='normal'
-        variant='outlined'
-        defaultValue={password}
-        helperText={errors.password ? errors.password.message : ''}
-        onChange={(event) => setPassword(event.target.value)}
-        inputProps={{
-          ref: register({
-            required: 'Campo Obrigatório'
-          }),
-          'data-testid': 'passwordInput'
-        }}
-      />
       <div>
         <Button
           type='submit'
@@ -97,15 +72,15 @@ export default function LoginForm () {
           size='large'
           data-testid={'buttonSubmit'}
         >
-          Entrar
+          Request Password
         </Button>
       </div>
       <Link
         component="button"
         type="button"
-        onClick={() => history.push('/forgot-password')}
+        onClick={() => history.push('/login')}
       >
-        Forgot Password?
+        Go Back
       </Link>
     </form>
   )

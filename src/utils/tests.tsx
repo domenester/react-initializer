@@ -18,4 +18,14 @@ export const renderWithRouterAndContext = (
   }
 }
 
+export const renderWithRouterAndContextRaw = (
+  component: JSX.Element
+) => (
+  <StateProvider>
+    <Router history={customHistory}> 
+      {component}
+    </Router>
+  </StateProvider>
+)
+
 export const isNodeEnvTest = () => process.env.NODE_ENV === 'test'

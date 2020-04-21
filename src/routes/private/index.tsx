@@ -3,12 +3,12 @@ import { Route, RouteProps, Redirect } from 'react-router-dom';
 import { useAuthServiceValue, AuthServiceProvider } from '../../services';
 import MiniDrawer from '../../components/sidebar'
 
-interface IProps {
+interface IPrivateRouteComponentProps {
   Component: FunctionComponent,
   routeProps: RouteProps
 }
 
-export const PrivateRouteComponent = ({ Component, routeProps }: IProps) => {
+export const PrivateRouteComponent = ({ Component, routeProps }: IPrivateRouteComponentProps) => {
   const { isAuthenticated } = useAuthServiceValue();
   if (!isAuthenticated()) {
     return <Redirect to="/login" />;
@@ -28,7 +28,7 @@ export const PrivateRouteComponent = ({ Component, routeProps }: IProps) => {
   );
 }
 
-export const PrivateRoute = ({ Component, routeProps }: IProps) => {
+export const PrivateRoute = ({ Component, routeProps }: IPrivateRouteComponentProps) => {
   return (
     <AuthServiceProvider>
       <PrivateRouteComponent
