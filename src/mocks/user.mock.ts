@@ -1,6 +1,6 @@
 export const userDefault = {
   username: 'admin',
   email: 'admin@mail.com',
-  password: 'admin',
+  password: '12345678',
   role: 'admin'
 }
