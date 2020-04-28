@@ -33,8 +33,9 @@ export default function ResetPasswordForm () {
       return showAlert()
     }
 
-    const email = qs.parse(window.location.search, { ignoreQueryPrefix: true }).email
-    const response = await reset(email, password)
+    const token = qs.parse(window.location.search, { ignoreQueryPrefix: true }).token
+    localStorage.setItem('token', token)
+    const response = await reset(password)
     if (response) {
       showAlert('success', response.message)
       history.push('/login')

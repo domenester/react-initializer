@@ -11,7 +11,7 @@ const buildValue = () => {
     return {
       headers: {
         userid: localStorage.getItem('userid') || '',
-        authorization: localStorage.getItem('token') || '',
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || '',
       },
     };
   }

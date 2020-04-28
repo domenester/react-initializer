@@ -11,8 +11,8 @@ const buildValue = () => {
     return data;
   }
 
-  const reset = async (email: string, password: string) => {
-    const { data } = await post('password/reset', { email, password })
+  const reset = async (password: string) => {
+    const { data } = await post('password/reset', { password })
     return data;
   }
 
