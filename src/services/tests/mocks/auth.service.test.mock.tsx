@@ -3,7 +3,7 @@ export const AuthMocks = {
     valid: {
       default: {
         email: 'admin@mail.com',
-        password: 'admin'
+        password: '12345678'
       }
     }
   }
