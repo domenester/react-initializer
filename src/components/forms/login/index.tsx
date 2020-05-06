@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { TextField, Button, Link } from '@material-ui/core'
+import { Button, Link } from '@material-ui/core'
 import { useAuthServiceValue } from '../../../services'
 import { useStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'

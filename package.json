@@ -35,6 +35,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:nowatch": "react-scripts test --watchAll=false",
+    "deploy:s3": "npm run build && aws s3 sync build/ s3://diogodomene.tk",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
