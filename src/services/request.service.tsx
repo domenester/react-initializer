@@ -31,7 +31,6 @@ const buildValue = () => {
             severity: 'error'
           }
         })
-        console.error(error.response)
         throw error
       });
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import ForgotPasswordForm from '../forgot-password'
-import { fireEvent, act, wait } from '@testing-library/react';
+import { fireEvent, act } from '@testing-library/react';
 import { userDefault } from '../../../mocks'
 import { renderWithRouterAndContext } from '../../../utils'
 import { PasswordServiceProvider } from '../../../services'
@@ -9,7 +9,7 @@ import 'mutationobserver-shim';
 (global as any).MutationObserver = window.MutationObserver;
 
 
-describe.skip('Form Login Testes', () => {
+describe('Form Login Testes', () => {
   const componentToRender = (children?: any) => (
     <PasswordServiceProvider>
       {children}
@@ -28,7 +28,7 @@ describe.skip('Form Login Testes', () => {
     })
   })
 
-  it("expect to send password request", async () => {
+  it.skip("expect to send password request", async () => {
     const { getByTestId } = render()
     const emailInput = getByTestId('emailInput')
     const buttonSubmit = getByTestId('buttonSubmit');
