@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Button, Link } from '@material-ui/core'
+import { Button, Link, Grid } from '@material-ui/core'
 import { useAuthServiceValue } from '../../../services'
 import { useStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
@@ -50,36 +50,55 @@ export default function LoginForm () {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='center'>
-      <EmailInput
-        errors={errors}
-        register={register}
-        setEmail={setEmail}
-        defaultValue={email}
-      />
-      <PasswordInput
-        errors={errors}
-        register={register}
-        setPassword={setPassword}
-        defaultValue={email}
-      />
-      <div>
-        <Button
-          type='submit'
-          variant='contained'
-          color='primary'
-          size='large'
-          data-testid={'buttonSubmit'}
-        >
-          Entrar
-        </Button>
-      </div>
-      <Link
-        component="button"
-        type="button"
-        onClick={() => history.push('/forgot-password')}
-      >
-        Forgot Password?
-      </Link>
+      <Grid container spacing={1}>
+        <Grid container item xs={12} >
+          <EmailInput
+            errors={errors}
+            register={register}
+            setEmail={setEmail}
+            defaultValue={email}
+          />
+        </Grid>
+        <Grid container item xs={12} >
+          <PasswordInput
+            errors={errors}
+            register={register}
+            setPassword={setPassword}
+            defaultValue={email}
+          />
+        </Grid>
+        <Grid container item xs={12} justify='center'>
+          <Button
+            type='submit'
+            variant='contained'
+            color='primary'
+            size='large'
+            data-testid={'buttonSubmit'}
+          >
+            Entrar
+          </Button>
+        </Grid>
+        <Grid container item xs={12} justify='center'>
+          <Link
+            className="fullWidth"
+            component="button"
+            type="button"
+            onClick={() => history.push('/forgot-password')}
+          >
+            Forgot Password?
+          </Link>
+        </Grid>
+        <Grid container item xs={12} justify='center'>
+          <Link
+            className="fullWidth"
+            component="button"
+            type="button"
+            onClick={() => history.push('/register')}
+          >
+            Register
+          </Link>
+        </Grid>
+      </Grid>
     </form>
   )
 }

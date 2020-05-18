@@ -6,13 +6,14 @@ import {
   PrivateRoute,
   LoginRoute,
   HomeRoute,
-  ResetPasswordRoute
+  ResetPasswordRoute,
+  ForgotPasswordRoute,
+  RegisterRoute
 } from './routes';
 
 import './App.scss';
 import { StateProvider } from './shared/state-handler';
 import { renderPage } from './utils'
-import { ForgotPasswordRoute } from './routes/forgot-password';
 
 export default () => (
   <StateProvider>
@@ -20,6 +21,11 @@ export default () => (
       <PrivateRoute
         routeProps = {{exact: true, path: '/'}}
         Component={() => renderPage(HomeRoute)}
+      />
+      <Route
+        exact
+        path='/register'
+        component={() => renderPage(RegisterRoute)}
       />
       <Route
         exact

@@ -1,17 +1,20 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import EmailInput from '../input/email.input'
 import { Button, Link, Grid } from '@material-ui/core'
+import { useRegisterServiceValue } from '../../../services'
 import { useStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
-import { usePasswordServiceValue } from '../../../services'
+import { isNodeEnvTest } from '../../../utils'
+import EmailInput from '../input/email.input'
+import PasswordInput from '../input/password.input'
 
-export default function ForgotPasswordForm () {
+export default function RegisterForm () {
 
-  const { requestReset } = usePasswordServiceValue()
+  const registerService = useRegisterServiceValue()
   const history = useHistory()
   const { dispatch } = useStateValue()
   const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
 
   const formatSnackBarMessages = () => {
     return Object.keys(errors)
@@ -32,7 +35,7 @@ export default function ForgotPasswordForm () {
       return showAlert()
     }
 
-    const response = await requestReset(email)
+    const response = await registerService.register(email, password)
     if (response) {
       showAlert('success', response.message)
       history.push('/login')
@@ -52,6 +55,14 @@ export default function ForgotPasswordForm () {
             defaultValue={email}
           />
         </Grid>
+        <Grid container item xs={12} >
+          <PasswordInput
+            errors={errors}
+            register={register}
+            setPassword={setPassword}
+            defaultValue={email}
+          />
+        </Grid>
         <Grid container item xs={12} justify='center'>
           <Button
             type='submit'
@@ -60,7 +71,7 @@ export default function ForgotPasswordForm () {
             size='large'
             data-testid={'buttonSubmit'}
           >
-            Request Password
+            Register
           </Button>
         </Grid>
         <Grid container item xs={12} justify='center'>
@@ -69,10 +80,10 @@ export default function ForgotPasswordForm () {
             type="button"
             onClick={() => history.push('/login')}
           >
-            Go Back
+            Login
           </Link>
         </Grid>
-      </Grid>
+      </Grid>     
     </form>
   )
 }

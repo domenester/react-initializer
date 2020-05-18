@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import PasswordInput from '../input/password.input'
-import { Button, Link } from '@material-ui/core'
+import { Button, Link, Grid } from '@material-ui/core'
 import { useStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
 import { usePasswordServiceValue } from '../../../services'
@@ -46,30 +46,36 @@ export default function ResetPasswordForm () {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='center'>
-      <PasswordInput
-        errors={errors}
-        register={register}
-        setPassword={setPassword}
-        defaultValue={password}
-      />
-      <div>
-        <Button
-          type='submit'
-          variant='contained'
-          color='primary'
-          size='large'
-          data-testid={'buttonSubmit'}
-        >
-          Reset Password
-        </Button>
-      </div>
-      <Link
-        component="button"
-        type="button"
-        onClick={() => history.push('/login')}
-      >
-        Login
-      </Link>
+      <Grid container spacing={1}>
+        <Grid container item xs={12} >
+          <PasswordInput
+            errors={errors}
+            register={register}
+            setPassword={setPassword}
+            defaultValue={password}
+          />
+        </Grid>
+        <Grid container item xs={12} justify='center'>
+          <Button
+            type='submit'
+            variant='contained'
+            color='primary'
+            size='large'
+            data-testid={'buttonSubmit'}
+          >
+            Reset Password
+          </Button>
+        </Grid>
+        <Grid container item xs={12} justify='center'>
+          <Link
+            component="button"
+            type="button"
+            onClick={() => history.push('/login')}
+          >
+            Login
+          </Link>
+        </Grid>
+      </Grid>
     </form>
   )
 }
