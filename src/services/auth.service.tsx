@@ -9,7 +9,8 @@ const buildValue = () => {
  
   const login = async (email: string, password: string) => {
     const { data } = await post('auth/login', { email, password })
-    localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('user', JSON.stringify(data.user))
+    localStorage.setItem('token', data.access_token)
     return data;
   }
 

@@ -4,7 +4,6 @@ import { Button, Link, Grid } from '@material-ui/core'
 import { useRegisterServiceValue } from '../../../services'
 import { useStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
-import { isNodeEnvTest } from '../../../utils'
 import EmailInput from '../input/email.input'
 import PasswordInput from '../input/password.input'
 

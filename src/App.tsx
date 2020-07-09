@@ -8,7 +8,8 @@ import {
   HomeRoute,
   ResetPasswordRoute,
   ForgotPasswordRoute,
-  RegisterRoute
+  RegisterRoute,
+  UserRoute
 } from './routes';
 
 import './App.scss';
@@ -21,6 +22,10 @@ export default () => (
       <PrivateRoute
         routeProps = {{exact: true, path: '/'}}
         Component={() => renderPage(HomeRoute)}
+      />
+      <PrivateRoute
+        routeProps = {{exact: true, path: '/user'}}
+        Component={() => renderPage(UserRoute)}
       />
       <Route
         exact

@@ -1,10 +1,18 @@
 import axios from 'axios';
 import { useStateValue } from '../shared/state-handler'
 import ProviderGenerator from '../shared/provider-generator';
+import { useHistory } from 'react-router-dom';
 
 const buildValue = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { dispatch } = useStateValue()
+
+  /**
+   * TODO: Discover how to use the useHistory hook in tests
+   */
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const history = process.env.NODE_ENV !== 'test' ? useHistory() : {} as {[key: string]: any}
   const url = process.env.REACT_APP_API_URL
 
   const options = () => {
@@ -23,6 +31,9 @@ const buildValue = () => {
   const post = (path: string, body = {}) => {
     return axios.post(`${url}${path && `/${path}`}`, { ...body }, options())
       .catch(error => {
+        if (error?.response?.data?.statusCode === 401) {
+          history.push('/login')
+        }
         dispatch({
           type: 'setSnackbarOpen',
           payload: {

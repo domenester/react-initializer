@@ -1,5 +1,10 @@
-import { createBrowserHistory } from "history";
+import { createBrowserHistory, createMemoryHistory } from "history";
+import { isNodeEnvTest } from "../utils";
 
-const customHistory = createBrowserHistory();
+const customHistory = (
+  isNodeEnvTest() ?
+  createMemoryHistory() :
+  createBrowserHistory()
+);
 
 export default customHistory;
