@@ -13,11 +13,11 @@ import {
 } from './routes';
 
 import './App.scss';
-import { StateProvider } from './shared/state-handler';
 import { renderPage } from './utils'
+import { GlobalStateProvider } from './shared/state-handler/state-provider';
 
 export default () => (
-  <StateProvider>
+  <GlobalStateProvider>
     <Router history={customHistory}>
       <PrivateRoute
         routeProps = {{exact: true, path: '/'}}
@@ -48,5 +48,5 @@ export default () => (
         component={() => renderPage(LoginRoute)}
       />
     </Router>
-  </StateProvider>
+  </GlobalStateProvider>
 )

@@ -2,16 +2,16 @@ import { AuthMocks } from './mocks'
 import { PasswordServiceProvider, usePasswordServiceValue } from '../password.service'
 import { renderHook } from '@testing-library/react-hooks'
 import React from 'react';
-import { StateProvider } from '../../shared/state-handler';
+import { GlobalStateProvider } from '../../shared/state-handler';
 import { act } from 'react-test-renderer';
 
 describe('Password Service Testes', () => {
   const { result: { current } } = renderHook(
     () => usePasswordServiceValue(),
     { wrapper: ({ children }) => (
-        <StateProvider>
+        <GlobalStateProvider>
           <PasswordServiceProvider>{children}</PasswordServiceProvider>
-        </StateProvider>
+        </GlobalStateProvider>
       )
     }
   );

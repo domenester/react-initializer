@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import EmailInput from '../input/email.input'
 import { Button, Link, Grid } from '@material-ui/core'
-import { useStateValue } from '../../../shared/state-handler'
+import { useSnackBarStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
 import { usePasswordServiceValue } from '../../../services'
 
@@ -10,7 +10,7 @@ export default function ForgotPasswordForm () {
 
   const { requestReset } = usePasswordServiceValue()
   const history = useHistory()
-  const { dispatch } = useStateValue()
+  const { dispatch } = useSnackBarStateValue()
   const [ email, setEmail ] = useState('')
 
   const formatSnackBarMessages = () => {

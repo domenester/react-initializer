@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import PasswordInput from '../input/password.input'
 import { Button, Link, Grid } from '@material-ui/core'
-import { useStateValue } from '../../../shared/state-handler'
+import { useSnackBarStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
 import { usePasswordServiceValue } from '../../../services'
 import * as qs from 'qs'
@@ -11,7 +11,7 @@ export default function ResetPasswordForm () {
 
   const { reset } = usePasswordServiceValue()
   const history = useHistory()
-  const { dispatch } = useStateValue()
+  const { dispatch } = useSnackBarStateValue()
   const [ password, setPassword ] = useState('')
 
   const formatSnackBarMessages = () => {

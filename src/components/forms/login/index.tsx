@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Link, Grid } from '@material-ui/core'
 import { useAuthServiceValue } from '../../../services'
-import { useStateValue } from '../../../shared/state-handler'
+import {
+  useSnackBarStateValue,
+  useUserStateValue
+} from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
 import { isNodeEnvTest } from '../../../utils'
 import EmailInput from '../input/email.input'
@@ -12,7 +15,8 @@ export default function LoginForm () {
 
   const { login } = useAuthServiceValue()
   const history = useHistory()
-  const { dispatch } = useStateValue()
+  const snackBarState = useSnackBarStateValue()
+  const userState = useUserStateValue()
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
 
@@ -21,7 +25,7 @@ export default function LoginForm () {
       .map(key => errors[key].message).join(', ')
   }
 
-  const showAlert = () => dispatch({
+  const showAlert = () => snackBarState.dispatch({
     type: 'setSnackbarOpen',
     payload: {
       open: true,
@@ -37,7 +41,7 @@ export default function LoginForm () {
 
     const response = await login(email, password)
     if (response) {
-      dispatch({ type: 'setUser', payload: response.user })
+      userState.dispatch({ type: 'setUser', payload: response.user })
       history.push('/')
       /**
        * TODO: Find a way to app load home component to exclude this page refresh

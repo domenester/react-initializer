@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Link, Grid } from '@material-ui/core'
 import { useRegisterServiceValue } from '../../../services'
-import { useStateValue } from '../../../shared/state-handler'
+import { useSnackBarStateValue } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
 import EmailInput from '../input/email.input'
 import PasswordInput from '../input/password.input'
@@ -11,7 +11,7 @@ export default function RegisterForm () {
 
   const registerService = useRegisterServiceValue()
   const history = useHistory()
-  const { dispatch } = useStateValue()
+  const { dispatch } = useSnackBarStateValue()
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
 

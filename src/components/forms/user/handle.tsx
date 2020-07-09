@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import EmailInput from '../input/email.input'
 import { Button, Grid, Paper, withStyles } from '@material-ui/core'
-import { useStateValue } from '../../../shared/state-handler'
+import { useSnackBarStateValue } from '../../../shared/state-handler'
 import { useUserServiceValue } from '../../../services'
 import PasswordInput from '../input/password.input'
 import TextInput from '../input/text.input'
@@ -24,7 +24,7 @@ interface IHandleForm {
 function UserHandleFormComponent (props: IHandleForm) {
 
   const { create } = useUserServiceValue()
-  const { dispatch } = useStateValue()
+  const { dispatch } = useSnackBarStateValue()
   const [ name, setName ] = useState('')
   const [ username, setUsername ] = useState('')
   const [ email, setEmail ] = useState('')

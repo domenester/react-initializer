@@ -1,9 +1,3 @@
-import { UserReducers } from './user'
-import { SnackbarReducers } from './snackbar'
-
-export default {
-  ...UserReducers,
-  ...SnackbarReducers
-}
-
+export * from './snackbar'
+export * from './user'
 export * from './state-provider'

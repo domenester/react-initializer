@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { useStateValue } from '../shared/state-handler'
+import { useSnackBarStateValue } from '../shared/state-handler'
 import ProviderGenerator from '../shared/provider-generator';
 import { useHistory } from 'react-router-dom';
 
 const buildValue = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { dispatch } = useStateValue()
+  const { dispatch } = useSnackBarStateValue()
 
   /**
    * TODO: Discover how to use the useHistory hook in tests

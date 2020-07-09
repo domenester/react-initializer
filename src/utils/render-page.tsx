@@ -1,11 +1,11 @@
 import React from 'react'
-import { useStateValue } from "../shared/state-handler";
+import { useSnackBarStateValue } from "../shared/state-handler";
 import { snackbarConfig } from "../shared/config";
 import { Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 
 export default ( Component: () => JSX.Element ) => {
-  const { state, dispatch } = useStateValue();
+  const { state, dispatch } = useSnackBarStateValue();
   const { snackbar: { open, message, severity } } = state
   const { anchorOrigin, autoHideDuration } = snackbarConfig
 
