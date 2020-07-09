@@ -1,11 +1,13 @@
 import { UserReducers } from "../user";
 import { SnackbarReducers } from "../snackbar";
+import { UserListReducers } from "../list";
 
 const reducers: {
   [key: string]: ( state: any, payload: any ) => { [key: string]: any }
  } = {
   ...UserReducers,
-  ...SnackbarReducers
+  ...SnackbarReducers,
+  ...UserListReducers
 }
 
 export default (state: any, action: {

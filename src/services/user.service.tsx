@@ -1,6 +1,7 @@
 import React from 'react';
 import { RequestServiceProvider, useRequestServiceValue } from './request.service';
 import ProviderGenerator from '../shared/provider-generator';
+import { UserModel } from '../models';
 
 const buildValue = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -11,8 +12,14 @@ const buildValue = () => {
     return data;
   }
 
+  const create = async (user: UserModel) => {
+    const { data } = await post('users/create', user)
+    return data;
+  }
+
   return {
-    list
+    list,
+    create
   }
 }
 

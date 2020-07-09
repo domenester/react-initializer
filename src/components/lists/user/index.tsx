@@ -6,9 +6,7 @@ import { TStyle } from '../../../shared/table/types';
 
 const styles: TStyle = (theme: any) => ({
   root: {
-    width: '600px',
-    marginTop: theme.spacing.unit * 3,
-    margin: 'auto'
+    width: '100%'
   }
 });
 

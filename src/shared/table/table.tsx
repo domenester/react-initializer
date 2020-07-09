@@ -14,7 +14,7 @@ import { StyledTableCell, StyledTableRow } from './'
 const styles = (theme: any) => ({
   root: {
     width: '600px',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
   }
 });
 
@@ -47,12 +47,12 @@ function CommonTableComponent (props: TableProps) {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const buildHeaderCell = () => headers.map(
-    name => <StyledTableCell> { name } </StyledTableCell>
+    name => <StyledTableCell key={name}> { name } </StyledTableCell>
   )
 
   const buildRowCell = (row: TRow) => Object.keys(row)
     .filter(key => key !== 'id')
-    .map(key => <StyledTableCell> {row[key]} </StyledTableCell>)
+    .map(key => <StyledTableCell key={key}> {row[key]} </StyledTableCell>)
 
   return (
     <Paper className={classes.root}>
