@@ -1,4 +1,8 @@
-export default {
+import { TReducers } from "../../interfaces"
+import initialState from './initial-state'
+
+export const UserListReducers: TReducers =  {
+  resetState: (state: any, payload: any) => initialState(),
   setRows: (state: any, payload: any) => ({
       ...state,
       rows: payload

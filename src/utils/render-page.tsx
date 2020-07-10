@@ -3,6 +3,7 @@ import { useSnackBarStateValue } from "../shared/state-handler";
 import { snackbarConfig } from "../shared/config";
 import { Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
+import { AlertServiceProvider } from '../services';
 
 export default ( Component: () => JSX.Element ) => {
   const { state, dispatch } = useSnackBarStateValue();
@@ -29,7 +30,9 @@ export default ( Component: () => JSX.Element ) => {
           {message}
         </MuiAlert>
       </Snackbar>
-      <Component />
+      <AlertServiceProvider>
+        <Component />
+      </AlertServiceProvider>
     </div>
   )
 }

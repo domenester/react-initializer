@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Link, Grid } from '@material-ui/core'
-import { useRegisterServiceValue } from '../../../services'
-import { useSnackBarStateValue } from '../../../shared/state-handler'
+import { useRegisterServiceValue, useAlertServiceValue } from '../../../services'
 import { useHistory } from 'react-router-dom'
 import EmailInput from '../input/email.input'
 import PasswordInput from '../input/password.input'
@@ -11,32 +10,18 @@ export default function RegisterForm () {
 
   const registerService = useRegisterServiceValue()
   const history = useHistory()
-  const { dispatch } = useSnackBarStateValue()
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
-
-  const formatSnackBarMessages = () => {
-    return Object.keys(errors)
-      .map(key => errors[key].message).join(', ')
-  }
-
-  const showAlert = (severity = 'error', message?: string) => dispatch({
-    type: 'setSnackbarOpen',
-    payload: {
-      open: true,
-      message: message || formatSnackBarMessages(),
-      severity
-    }
-  })
+  const { multipleErrors, success } = useAlertServiceValue()
 
   const onSubmit = async (values: any) => {
     if (Object.keys(errors).length) {
-      return showAlert()
+      return multipleErrors(errors)
     }
 
     const response = await registerService.register(email, password)
     if (response) {
-      showAlert('success', response.message)
+      success(response.message)
       history.push('/login')
     }
   }

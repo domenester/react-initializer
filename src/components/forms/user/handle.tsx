@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import EmailInput from '../input/email.input'
 import { Button, Grid, Paper, withStyles } from '@material-ui/core'
-import { useSnackBarStateValue } from '../../../shared/state-handler'
-import { useUserServiceValue } from '../../../services'
+import { useUserListStateValue } from '../../../shared/state-handler'
+import { useUserServiceValue, useAlertServiceValue } from '../../../services'
 import PasswordInput from '../input/password.input'
 import TextInput from '../input/text.input'
 import { TStyle } from '../../../shared/table/types'
@@ -23,40 +23,40 @@ interface IHandleForm {
 
 function UserHandleFormComponent (props: IHandleForm) {
 
-  const { create } = useUserServiceValue()
-  const { dispatch } = useSnackBarStateValue()
+  const userListDispatch = useUserListStateValue().dispatch
+  const userListState = useUserListStateValue().state
+  const { multipleErrors, success } = useAlertServiceValue()
+
+  const { create, list } = useUserServiceValue()
   const [ name, setName ] = useState('')
   const [ username, setUsername ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
 
-  const formatSnackBarMessages = () => {
-    return Object.keys(errors)
-      .map(key => errors[key].message).join(', ')
+  async function fetchUserList () {
+    const data: any = await list(userListState.take, 0)
+    userListDispatch({ type: 'resetState', payload: null })
+    userListDispatch({ type: 'setRows', payload: data.rows || [] })
+    userListDispatch({ type: 'setCount', payload: data.count || 0 })
   }
 
-  const showAlert = (severity = 'error', message?: string) => dispatch({
-    type: 'setSnackbarOpen',
-    payload: {
-      open: true,
-      message: message || formatSnackBarMessages(),
-      severity
-    }
-  })
+  const { handleSubmit, reset, register, errors } = useForm();
 
   const onSubmit = async (values: any) => {
+
     if (Object.keys(errors).length) {
-      return showAlert()
+      return multipleErrors(errors)
     }
 
     const body = new UserModel( password, email, username, ['owner'] )
     const response = await create(body)
     if (response) {
-      showAlert('success', response.message)
+      success(response.message)
+      await fetchUserList()
+      reset()
     }
   }
 
-  const { handleSubmit, register, errors } = useForm();
   const { classes } = props
   return (
     <Paper className={classes.root}>

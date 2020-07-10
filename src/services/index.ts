@@ -4,6 +4,7 @@ export * from './auth.service'
 export * from './password.service'
 export * from './register.service'
 export * from './user.service'
+export * from './alert.service'
 
 export {
   customHistory

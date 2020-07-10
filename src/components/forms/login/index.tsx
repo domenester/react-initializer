@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Link, Grid } from '@material-ui/core'
-import { useAuthServiceValue } from '../../../services'
+import { useAuthServiceValue, useAlertServiceValue } from '../../../services'
 import {
-  useSnackBarStateValue,
   useUserStateValue
 } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
@@ -15,28 +14,14 @@ export default function LoginForm () {
 
   const { login } = useAuthServiceValue()
   const history = useHistory()
-  const snackBarState = useSnackBarStateValue()
   const userState = useUserStateValue()
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
-
-  const formatSnackBarMessages = () => {
-    return Object.keys(errors)
-      .map(key => errors[key].message).join(', ')
-  }
-
-  const showAlert = () => snackBarState.dispatch({
-    type: 'setSnackbarOpen',
-    payload: {
-      open: true,
-      message: formatSnackBarMessages(),
-      severity: 'error'
-    }
-  })
+  const { multipleErrors } = useAlertServiceValue()
 
   const onSubmit = async (values: any) => {
     if (Object.keys(errors).length) {
-      return showAlert()
+      return multipleErrors(errors)
     }
 
     const response = await login(email, password)
