@@ -7,6 +7,11 @@ const buildValue = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { post } = useRequestServiceValue()
  
+  const edit = async (user: UserModel) => {
+    const { data } = await post('users/update', user)
+    return data;
+  }
+
   const list = async (take: number, skip: number) => {
     const { data } = await post('users/list', { take, skip })
     return data;
@@ -19,7 +24,8 @@ const buildValue = () => {
 
   return {
     list,
-    create
+    create,
+    edit
   }
 }
 

@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import EmailInput from '../input/email.input'
 import { Button, Grid, Paper, withStyles } from '@material-ui/core'
-import { useUserListStateValue } from '../../../shared/state-handler'
+import { useUserListStateValue, useUserFormStateValue } from '../../../shared/state-handler'
 import { useUserServiceValue, useAlertServiceValue } from '../../../services'
 import PasswordInput from '../input/password.input'
 import TextInput from '../input/text.input'
@@ -23,15 +23,30 @@ interface IHandleForm {
 
 function UserHandleFormComponent (props: IHandleForm) {
 
+  const { multipleErrors, success } = useAlertServiceValue()
   const userListDispatch = useUserListStateValue().dispatch
   const userListState = useUserListStateValue().state
-  const { multipleErrors, success } = useAlertServiceValue()
 
   const { create, list } = useUserServiceValue()
-  const [ name, setName ] = useState('')
-  const [ username, setUsername ] = useState('')
-  const [ email, setEmail ] = useState('')
-  const [ password, setPassword ] = useState('')
+
+  const userFormState = useUserFormStateValue().state
+  const userFormDispatch = useUserFormStateValue().dispatch
+
+  const {
+    name, username, email, password
+  } = userFormState
+
+  const setName = (value: string) => 
+    userFormDispatch({type: 'setName', payload: value})
+
+  const setUsername = (value: string) => 
+    userFormDispatch({type: 'setUsername', payload: value})
+  
+  const setEmail = (value: string) =>
+    userFormDispatch({type: 'setEmail', payload: value})
+  
+  const setPassword = (value: string) =>
+    userFormDispatch({type: 'setPassword', payload: value})
 
   async function fetchUserList () {
     const data: any = await list(userListState.take, 0)

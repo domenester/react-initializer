@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import TablePaginationActionsWrapped from './pagination-actions';
 import { TableHead } from '@material-ui/core';
 import { StyledTableCell, StyledTableRow } from './'
+import DehazeIcon from '@material-ui/icons/Dehaze'
+import { TableActionsMenu } from './table.actions';
 
 const styles = (theme: any) => ({
   root: {
@@ -18,9 +20,12 @@ const styles = (theme: any) => ({
   }
 });
 
-type TRow = { [key: string]: number | string | Date }
+export type TRow = {
+  id: number,
+  [key: string]: number | string | Date
+}
 
-interface TableProps {
+interface ITableProps {
   headers: string [],
   rows: TRow [],
   page: number,
@@ -28,10 +33,11 @@ interface TableProps {
   count: number,
   handleChangePage: (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => void,
   handleChangeRowsPerPage: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>,
-  classes: any
+  classes: any,
+  editable: boolean
 }
 
-function CommonTableComponent (props: TableProps) {
+function CommonTableComponent (props: ITableProps) {
 
   const {
     headers,
@@ -41,18 +47,63 @@ function CommonTableComponent (props: TableProps) {
     count,
     handleChangePage,
     handleChangeRowsPerPage,
-    classes
+    classes,
+    editable
   } = props
+
+  const initialPopoverElementMap: {[key: string]: any} = {}
+  const [ popoverElementMap, setPopoverElementMap ] = useState(initialPopoverElementMap)
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  const buildHeaderCell = () => headers.map(
-    name => <StyledTableCell key={name}> { name } </StyledTableCell>
-  )
+  const buildHeaderCell = () => [
+    ...headers.map( name => <StyledTableCell key={name}>{name}</StyledTableCell> ),
+    <StyledTableCell
+      key={'acions-header'}
+      style={{textAlign: 'center'}}
+    >
+      Ações
+    </StyledTableCell>
+  ]
 
-  const buildRowCell = (row: TRow) => Object.keys(row)
+  const buildRowCell = (row: TRow) => ([
+    ...Object.keys(row)
     .filter(key => key !== 'id')
-    .map(key => <StyledTableCell key={key}> {row[key]} </StyledTableCell>)
+    .map(key => <StyledTableCell key={key}>{row[key]}</StyledTableCell>),
+    buildActionCell(row)
+  ])
+
+  const buildActionCell = (row: TRow) => {
+    const id = row.id
+    const popoverId = `popover-${id}`
+    const handleClick = (popoverId: string, event: React.MouseEvent<HTMLElement>) => {
+      setPopoverElementMap({ ...popoverElementMap, [popoverId]: event.currentTarget })
+    };
+    const idName = (!!popoverElementMap[popoverId] && popoverId) || undefined
+    return (
+      <StyledTableCell
+        key={'acions-row'}
+        style={{textAlign: 'center', cursor: 'pointer'}}
+      >
+        <div
+          aria-controls={idName}
+          aria-haspopup="true"
+          onClick={(event: React.MouseEvent<HTMLElement>) => handleClick(popoverId, event)}
+        >
+          <DehazeIcon/>
+        </div>
+        <TableActionsMenu
+          id={idName}
+          open={!!popoverElementMap[popoverId]}
+          anchorEl={popoverElementMap[popoverId]}  
+          handleClose={
+            () => setPopoverElementMap({ ...popoverElementMap, [popoverId]: null })
+          }
+          editable={editable}
+        />
+      </StyledTableCell>
+    )
+  }
 
   return (
     <Paper className={classes.root}>
@@ -65,7 +116,7 @@ function CommonTableComponent (props: TableProps) {
           </TableHead>
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: TRow) => (
-              <StyledTableRow key={row.id as string}>
+              <StyledTableRow key={row.id}>
                 { buildRowCell(row) }
               </StyledTableRow>
             ))}

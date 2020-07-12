@@ -63,6 +63,7 @@ function UserListComponent (props: any) {
       handleChangePage={handleChangePage}
       handleChangeRowsPerPage={handleChangeRowsPerPage}
       classes={classes}
+      editable={true}
     ></CommonTable>
   );
 }
