@@ -26,7 +26,7 @@ export type TRow = {
 }
 
 interface ITableProps {
-  headers: string [],
+  headers: { [key: string]: string },
   rows: TRow [],
   page: number,
   rowsPerPage: number,
@@ -34,7 +34,8 @@ interface ITableProps {
   handleChangePage: (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => void,
   handleChangeRowsPerPage: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>,
   classes: any,
-  editable: boolean
+  editable: boolean,
+  handleEdit: Function
 }
 
 function CommonTableComponent (props: ITableProps) {
@@ -48,7 +49,8 @@ function CommonTableComponent (props: ITableProps) {
     handleChangePage,
     handleChangeRowsPerPage,
     classes,
-    editable
+    editable,
+    handleEdit
   } = props
 
   const initialPopoverElementMap: {[key: string]: any} = {}
@@ -57,7 +59,7 @@ function CommonTableComponent (props: ITableProps) {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const buildHeaderCell = () => [
-    ...headers.map( name => <StyledTableCell key={name}>{name}</StyledTableCell> ),
+    ...Object.keys(headers).map( name => <StyledTableCell key={name}>{headers[name]}</StyledTableCell> ),
     <StyledTableCell
       key={'acions-header'}
       style={{textAlign: 'center'}}
@@ -67,19 +69,30 @@ function CommonTableComponent (props: ITableProps) {
   ]
 
   const buildRowCell = (row: TRow) => ([
-    ...Object.keys(row)
+    ...Object.keys(headers)
     .filter(key => key !== 'id')
-    .map(key => <StyledTableCell key={key}>{row[key]}</StyledTableCell>),
+    .map(key => <StyledTableCell key={key}>{row[key] && row[key]}</StyledTableCell>),
     buildActionCell(row)
   ])
 
   const buildActionCell = (row: TRow) => {
     const id = row.id
     const popoverId = `popover-${id}`
+
     const handleClick = (popoverId: string, event: React.MouseEvent<HTMLElement>) => {
-      setPopoverElementMap({ ...popoverElementMap, [popoverId]: event.currentTarget })
+      setPopoverElementMap({
+        ...popoverElementMap,
+        [popoverId]: event.currentTarget
+      })
     };
+
+    const handleClose = () => setPopoverElementMap({
+      ...popoverElementMap,
+      [popoverId]: null
+    })
+
     const idName = (!!popoverElementMap[popoverId] && popoverId) || undefined
+
     return (
       <StyledTableCell
         key={'acions-row'}
@@ -96,10 +109,10 @@ function CommonTableComponent (props: ITableProps) {
           id={idName}
           open={!!popoverElementMap[popoverId]}
           anchorEl={popoverElementMap[popoverId]}  
-          handleClose={
-            () => setPopoverElementMap({ ...popoverElementMap, [popoverId]: null })
-          }
+          handleClose={handleClose}
+          row={row}
           editable={editable}
+          handleEdit={handleEdit}
         />
       </StyledTableCell>
     )

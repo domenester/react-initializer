@@ -1,11 +1,11 @@
-import { purple, green } from "@material-ui/core/colors";
+import { orange, indigo } from "@material-ui/core/colors";
 
 
 export default () => (
   {
     palette: {
-      primary: purple,
-      secondary: green,
+      primary: orange,
+      secondary: indigo,
     }
   }
 )

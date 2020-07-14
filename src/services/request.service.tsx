@@ -31,27 +31,35 @@ const buildValue = () => {
   const post = (path: string, body = {}) => {
     return axios.post(`${url}${path && `/${path}`}`, { ...body }, options())
       .catch(error => {
-        if (error?.response?.data?.statusCode === 401) {
-          history.push('/login')
-        }
-        dispatch({
-          type: 'setSnackbarOpen',
-          payload: {
-            open: true,
-            message: error?.response?.data?.message || error.message,
-            severity: 'error'
-          }
-        })
+        handleError(error)
         throw error
       });
   }
 
   const put = (path: string, body = {}) => {
-    return axios.put(`${url}${path && `/${path}`}`, { ...body }, options());
+    return axios.put(`${url}${path && `/${path}`}`, { ...body }, options())
+      .catch(error => {
+        handleError(error)
+        throw error
+      });;
   }
 
   const del = (path: string) => {
     return axios.delete(`${url}/${path}`, options());
+  }
+
+  const handleError = (error: any) => {
+    if (error?.response?.data?.statusCode === 401) {
+      history.push('/login')
+    }
+    dispatch({
+      type: 'setSnackbarOpen',
+      payload: {
+        open: true,
+        message: error?.response?.data?.message || error.message,
+        severity: 'error'
+      }
+    })
   }
 
   return {

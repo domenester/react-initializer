@@ -8,23 +8,38 @@ interface ITableActionsMenuProps {
   id: string | undefined;
   open: boolean;
   anchorEl: HTMLElement | null;
-  handleClose?: () => void;
+  handleClose: () => void;
   editable: boolean;
   row?: TRow;
+  handleEdit: Function
 }
 
 export function TableActionsMenu (props: ITableActionsMenuProps) {
-  const { editable } = props
+  const {
+    editable,
+    row,
+    handleEdit,
+    handleClose,
+    open,
+    anchorEl,
+    id
+  } = props
+
+  const handleEditAndClose = () => {
+    handleEdit(row)
+    handleClose()
+  }
+
   return (
     <Menu
-      id={props.id}
-      open={props.open}
-      anchorEl={props.anchorEl}
-      onClose={props.handleClose}
+      id={id}
+      open={open}
+      anchorEl={anchorEl}
+      onClose={handleClose}
     >
       {
         editable && 
-        <MenuItem onClick={() => {}}>
+        <MenuItem onClick={handleEditAndClose}>
           <EditIcon style={{fill: 'green'}}/> Editar
         </MenuItem>
       }

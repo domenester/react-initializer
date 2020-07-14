@@ -1,13 +1,14 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import EmailInput from '../input/email.input'
-import { Button, Grid, Paper, withStyles } from '@material-ui/core'
+import { Grid, Paper, withStyles } from '@material-ui/core'
 import { useUserListStateValue, useUserFormStateValue } from '../../../shared/state-handler'
 import { useUserServiceValue, useAlertServiceValue } from '../../../services'
 import PasswordInput from '../input/password.input'
 import TextInput from '../input/text.input'
 import { TStyle } from '../../../shared/table/types'
 import { UserModel } from '../../../models'
+import { ButtonSuccess, ButtonError } from '../../../shared/button'
 
 const styles: TStyle = (theme: any) => ({
   root: {
@@ -27,13 +28,13 @@ function UserHandleFormComponent (props: IHandleForm) {
   const userListDispatch = useUserListStateValue().dispatch
   const userListState = useUserListStateValue().state
 
-  const { create, list } = useUserServiceValue()
+  const { update, create, list } = useUserServiceValue()
 
   const userFormState = useUserFormStateValue().state
   const userFormDispatch = useUserFormStateValue().dispatch
 
-  const {
-    name, username, email, password
+  let {
+    id, name, username, email, password
   } = userFormState
 
   const setName = (value: string) => 
@@ -55,7 +56,12 @@ function UserHandleFormComponent (props: IHandleForm) {
     userListDispatch({ type: 'setCount', payload: data.count || 0 })
   }
 
-  const { handleSubmit, reset, register, errors } = useForm();
+  const { handleSubmit, register, reset, errors } = useForm();
+
+  const onCancel = () => {
+    userFormDispatch({type: 'resetState', payload: null})
+    reset()
+  }
 
   const onSubmit = async (values: any) => {
 
@@ -63,12 +69,24 @@ function UserHandleFormComponent (props: IHandleForm) {
       return multipleErrors(errors)
     }
 
-    const body = new UserModel( password, email, username, ['owner'] )
-    const response = await create(body)
+    const bodyPassword = !id ? password : undefined
+    const bodyId = id ? id: undefined
+
+    const body = new UserModel(
+      name,
+      email,
+      username,
+      ['owner'],
+      bodyPassword,
+      bodyId
+    )
+
+    const createOrUpdate = id ? update : create
+    const response = await createOrUpdate(body)
     if (response) {
       success(response.message)
       await fetchUserList()
-      reset()
+      onCancel()
     }
   }
 
@@ -110,11 +128,12 @@ function UserHandleFormComponent (props: IHandleForm) {
               errors={errors}
               register={register}
               setPassword={setPassword}
-              defaultValue={email}
+              defaultValue={password}
+              disabled={!!id}
             />
           </Grid>
-          <Grid container item xs={12} justify='center'>
-            <Button
+          <Grid container item xs={12} justify='flex-end'>
+            <ButtonSuccess
               type='submit'
               variant='contained'
               color='primary'
@@ -122,7 +141,16 @@ function UserHandleFormComponent (props: IHandleForm) {
               data-testid={'buttonSubmit'}
             >
               Salvar
-            </Button>
+            </ButtonSuccess>
+            <ButtonError
+              onClick={onCancel}
+              type='button'
+              variant='contained'
+              size='large'
+              data-testid={'buttonCancel'}
+            >
+              Cancelar
+            </ButtonError>
           </Grid>
         </Grid>
       </form>

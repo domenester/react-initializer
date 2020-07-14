@@ -24,7 +24,7 @@ export default function EmailInput ({
       autoComplete='email'
       margin='normal'
       variant='outlined'
-      defaultValue={defaultValue}
+      value={defaultValue}
       helperText={errors.email ? errors.email.message : ''}
       inputProps={{
         ref: register({

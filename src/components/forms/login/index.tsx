@@ -53,7 +53,7 @@ export default function LoginForm () {
             errors={errors}
             register={register}
             setPassword={setPassword}
-            defaultValue={email}
+            defaultValue={password}
           />
         </Grid>
         <Grid container item xs={12} justify='center'>

@@ -5,15 +5,15 @@ import { UserModel } from '../models';
 
 const buildValue = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { post } = useRequestServiceValue()
+  const { post, put } = useRequestServiceValue()
  
-  const edit = async (user: UserModel) => {
-    const { data } = await post('users/update', user)
+  const update = async (user: UserModel) => {
+    const { data } = await put('users/update', user)
     return data;
   }
 
-  const list = async (take: number, skip: number) => {
-    const { data } = await post('users/list', { take, skip })
+  const list = async (take: number, skip: number, filter: string) => {
+    const { data } = await post('users/list', { take, skip, filter })
     return data;
   }
 
@@ -25,7 +25,7 @@ const buildValue = () => {
   return {
     list,
     create,
-    edit
+    update
   }
 }
 

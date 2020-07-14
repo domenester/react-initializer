@@ -31,5 +31,17 @@ export const UserListReducers: TReducers =  {
       ...state,
       rowsPerPage: payload
     }
+  },
+  pushPageHistory: (state: any, payload: any) => {
+    return {
+      ...state,
+      pageHistory: [ ...state.pageHistory, payload ]
+    }
+  },
+  setFilter: (state: any, payload: any) => {
+    return {
+      ...state,
+      filter: payload
+    }
   }
 }

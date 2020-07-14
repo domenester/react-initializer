@@ -5,15 +5,18 @@ interface IPasswordInputProps {
   errors: any,
   register: any,
   setPassword: Function,
-  defaultValue: string
+  defaultValue: string,
+  disabled?: boolean
 }
 
 export default function PasswordInput ({
   errors,
   register,
   setPassword,
-  defaultValue
+  defaultValue,
+  disabled = false
 }: IPasswordInputProps) {
+  
   return (
     <TextField
       fullWidth
@@ -24,12 +27,13 @@ export default function PasswordInput ({
       autoComplete='current-password'
       margin='normal'
       variant='outlined'
-      defaultValue={defaultValue}
+      value={defaultValue}
+      disabled={disabled}
       helperText={errors.password ? errors.password.message : ''}
       onChange={(event) => setPassword(event.target.value)}
       inputProps={{
         ref: register({
-          required: 'Campo Obrigatório'
+          required: !disabled ? 'Campo Obrigatório' : false
         }),
         'data-testid': 'passwordInput'
       }}

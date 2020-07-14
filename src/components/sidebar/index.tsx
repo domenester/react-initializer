@@ -49,30 +49,23 @@ export default function MiniDrawer(
     setOpen(false);
   };
 
-  const buildListItem = (
-    item: ISideBarListItem,
-    action?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-  ) => (
-    <div onClick={action} key={item.text}>
-      <ListItem button >
-        <ListItemIcon>
-          {item.icon}  
-        </ListItemIcon>
-        <ListItemText primary={item.text} />
-      </ListItem>
-    </div>
+  const buildListLinkItem = ( item: ISideBarListItem, key: number ) => (
+    <ListItem button component={Link} to={item.link} key={key}>
+      <ListItemIcon>
+        {item.icon}  
+      </ListItemIcon>
+      <ListItemText primary={item.text} />
+    </ListItem>
   )
 
-  const buildListLinkItem = (item: ISideBarListItem, key: number) => {
-    if (!item.isLogout) {
-      return (
-        <Link to={item.link} key={key}>
-          {buildListItem(item)}
-        </Link>
-      )
-    }
-    return buildListItem(item, logout)
-  }
+  const buildListActionItem = ( item: ISideBarListItem, key: number ) => (
+    <ListItem button onClick={logout} key={key}>
+      <ListItemIcon>
+        {item.icon}  
+      </ListItemIcon>
+      <ListItemText primary={item.text} />
+    </ListItem>
+  )
 
   return (
     <ThemeProvider theme={theme}>
@@ -121,11 +114,11 @@ export default function MiniDrawer(
           </div>
           <Divider />
           <List>
-            {ListItems.map((item: ISideBarListItem, key) => buildListLinkItem(item, key))}
+            {ListItems.map((item: ISideBarListItem, key: number) => buildListLinkItem(item, key))}
           </List>
           <Divider />
           <List>
-            {SubListItems.map((item: ISideBarListItem, key) => buildListLinkItem(item, key))}
+            {SubListItems.map((item: ISideBarListItem, key: number) => buildListActionItem(item, key))}
           </List>
         </Drawer>
         <main className={classes.content}>

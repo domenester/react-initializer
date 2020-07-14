@@ -1,9 +1,10 @@
 export class UserModel {
   constructor(
-    private password: string,
+    public name: string,
     public email: string,
     public username: string,
     public roles: string [],
-    public id?: number
+    private password?: string | undefined,
+    public id?: number | undefined
   ) {}
 }

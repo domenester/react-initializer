@@ -8,4 +8,6 @@ export default () => ({
   count: 0,
   take: rowsPerPage,
   skip: 0,
+  pageHistory: [0],
+  filter: undefined
 })
