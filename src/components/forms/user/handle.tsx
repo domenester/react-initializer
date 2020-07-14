@@ -128,7 +128,7 @@ function UserHandleFormComponent (props: IHandleForm) {
               errors={errors}
               register={register}
               setPassword={setPassword}
-              defaultValue={password}
+              defaultValue={password || ''}
               disabled={!!id}
             />
           </Grid>

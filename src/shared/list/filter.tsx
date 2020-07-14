@@ -13,9 +13,16 @@ const styles: TStyle = (theme: any) => ({
 
 export const ListFilterComponent = (props: any) => {
   const [ value, setValue ] = useState('')
-  const { dispatch } = useUserListStateValue()
+  const { state: { filter }, dispatch } = useUserListStateValue()
   const label = 'Filtro'
   const name = 'filter'
+
+  const dispatchAndResetValue = (value: string) => {
+    if (value !== filter) {
+      dispatch({type: 'setFilter', payload: value})
+    }
+    setValue('')
+  }
 
   return (
     <TextField
@@ -28,17 +35,13 @@ export const ListFilterComponent = (props: any) => {
       variant='outlined'
       value={value}
       onKeyUp={(event) => {
-        console.log('event.ctrlKey, event.key: ', event.ctrlKey, event.key)
-        if (event.key === 'Enter') {
-          dispatch({type: 'setFilter', payload: value})
-          setValue('')
-        }
+        if (event.key === 'Enter') { dispatchAndResetValue(value) }
       }}
       InputProps={{ startAdornment: (
         <InputAdornment position="start">
           <IconButton
             aria-label="filter"
-            onClick={() => dispatch({type: 'setFilter', payload: value})}
+            onClick={() => dispatchAndResetValue(value)}
             edge="start"
           >
             <SearchIcon />

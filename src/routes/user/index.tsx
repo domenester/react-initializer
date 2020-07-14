@@ -6,7 +6,6 @@ import { Grid } from '@material-ui/core'
 import { PageHeader } from '../../components/header'
 import { UserListStateProvider } from '../../shared/state-handler/list'
 import { UserFormStateProvider } from '../../shared/state-handler'
-import { ListFilter } from '../../shared/list'
 
 export const UserRoute = () => (
   <div className='user-content'>
@@ -23,7 +22,6 @@ export const UserRoute = () => (
               <UserHandleForm/>
             </Grid>
             <Grid container item xs={6} >
-              <ListFilter/>
               <UserList/>
             </Grid>
           </Grid>

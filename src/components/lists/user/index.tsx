@@ -2,9 +2,9 @@ import React from 'react';
 import { useUserServiceValue } from '../../../services';
 import { TRow } from '../../../shared/table'
 import { useUserFormStateValue } from '../../../shared/state-handler';
-import { List } from '../../../shared/list';
+import { List, ListFilter } from '../../../shared/list';
 
-export const UserList = (props: any) => {
+export const UserList = () => {
   const { list } = useUserServiceValue()
 
   const userFormDispatch = useUserFormStateValue().dispatch
@@ -19,11 +19,14 @@ export const UserList = (props: any) => {
   const headers = { name: 'Nome', username: 'Username', email: 'Email' }
 
   return (
-    <List
-      requestList={list}
-      handleEdit={handleEdit}
-      headers={headers}
-      editable={true}
-    />
+    <>
+      <ListFilter/>
+      <List
+        requestList={list}
+        handleEdit={handleEdit}
+        headers={headers}
+        editable={true}
+      />
+    </>
   );
 }

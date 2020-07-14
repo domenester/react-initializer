@@ -3,8 +3,8 @@ export class UserModel {
     public name: string,
     public email: string,
     public username: string,
-    public roles: string [],
-    private password?: string | undefined,
+    public roles?: string [],
+    public password?: string | undefined,
     public id?: number | undefined
   ) {}
 }

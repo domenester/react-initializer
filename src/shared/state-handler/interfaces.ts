@@ -4,7 +4,10 @@ export type TReducers = {
 
 export type TDispatch =  ({ type, payload }: { type:string, payload: any }) => void;
 
-export interface IContextProps {
-  state: any;
-  dispatch: TDispatch;
+export interface IContextProps <T> {
+  state: T;
+  dispatch: React.Dispatch<{
+      type: string;
+      payload: any;
+  }>;
 }

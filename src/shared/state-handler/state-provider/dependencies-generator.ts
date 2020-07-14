@@ -2,20 +2,19 @@ import { useReducer } from 'react';
 import ProviderGenerator from '../../provider-generator';
 import { reducerHandler } from '../state-provider/reducer-handler';
 import { IContextProps } from '../interfaces';
-import { TReducers } from '../interfaces';
 
-export const DependenciesGenerator = (
-  reducers: TReducers,
-  initialState: () => any
-) => {
+export function DependenciesGenerator<ReducerType, StateType> (
+  reducers: ReducerType,
+  initialState: () => StateType
+) {
 
-  const reducer = (state: any, action: {
-    type: string, payload: any
+  const reducer = (state: StateType, action: {
+    type: string, payload: unknown
   }) => {
     return reducerHandler(state, action, reducers)
   };
   
-  const buildValue = () => {
+  const buildValue = (): IContextProps<ReducerType> => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [state, dispatch] = useReducer(reducer, initialState());
     return { state, dispatch };
@@ -23,12 +22,12 @@ export const DependenciesGenerator = (
   
   const providerGenerated = ProviderGenerator(
     buildValue,
-    {} as IContextProps
+    {}
   )
   
   const stateProvider = providerGenerated.provider;
   const context = providerGenerated.context;
-  const stateValue = providerGenerated.useValue;
+  const stateValue = providerGenerated.useValue as () => IContextProps<StateType>;
   
   return {
     stateProvider,

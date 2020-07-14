@@ -39,13 +39,7 @@ function ListComponent (props: IListComponent) {
     filter
   } = state
 
-  /**
-   * TODO: Adjust filter to work correctally
-   */
   async function fetch (take: number, skip: number, accumulate: boolean = true) {
-    if (filter) {
-      accumulate = false
-    }
     const data: any = await requestList(take, skip, filter)
     const newRows = [ ...( (accumulate && rows) || []), ...data.rows ]
     dispatch({ type: 'setRows', payload: newRows })
@@ -59,7 +53,6 @@ function ListComponent (props: IListComponent) {
     if (!pageHistory.some((index: number) => index === newPage)) {
       await fetch(take, newSkip)
     }
-    dispatch({type: 'pushPageHistory', payload: newPage})
   };
 
   const handleChangeRowsPerPage = async (event: any) => {
@@ -68,7 +61,6 @@ function ListComponent (props: IListComponent) {
       dispatch({ type: 'setRows', payload: [] })
       await fetch(value, 0, false)
     }
-    dispatch({ type: 'setPage', payload: 0 })
     dispatch({ type: 'setRowsPerPage', payload: value })
   };
 

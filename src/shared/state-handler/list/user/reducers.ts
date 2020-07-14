@@ -1,8 +1,9 @@
-import { TReducers } from "../../interfaces"
-import initialState from './initial-state'
+import InitialState from './initial-state'
 
-export const UserListReducers: TReducers =  {
-  resetState: (state: any, payload: any) => initialState(),
+const initialState = InitialState()
+
+export const UserListReducers =  {
+  resetState: (state: any, payload: any) => initialState,
   setRows: (state: any, payload: any) => ({
       ...state,
       rows: payload
@@ -15,7 +16,8 @@ export const UserListReducers: TReducers =  {
   ),
   setPage: (state: any, payload: any) => ({
       ...state,
-      page: payload
+      page: payload,
+      pageHistory: [ ...state.pageHistory, payload ]
     }
   ),
   setSkip: (state: any, payload: any) => ({
@@ -29,19 +31,17 @@ export const UserListReducers: TReducers =  {
     localStorage.setItem('configurations', JSON.stringify(config))
     return {
       ...state,
-      rowsPerPage: payload
-    }
-  },
-  pushPageHistory: (state: any, payload: any) => {
-    return {
-      ...state,
-      pageHistory: [ ...state.pageHistory, payload ]
+      rowsPerPage: payload,
+      take: payload
     }
   },
   setFilter: (state: any, payload: any) => {
     return {
       ...state,
-      filter: payload
+      filter: payload,
+      rows: initialState.rows,
+      pageHistory: initialState.pageHistory,
+      page: initialState.page
     }
   }
 }

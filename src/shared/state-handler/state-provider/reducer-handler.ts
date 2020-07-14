@@ -1,12 +1,10 @@
-import { TReducers } from "../interfaces";
-
-export const reducerHandler = (
-  state: any,
+export function reducerHandler <StateType> (
+  state: StateType,
   action: {
     type: string, payload: any
   },
-  reducers: TReducers
-) => {
+  reducers: { [key: string ]: any }
+) {
   if (!reducers[action.type]) {
     throw new Error('Action type not registered in reducers.')
   }

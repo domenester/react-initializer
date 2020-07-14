@@ -1,6 +1,6 @@
+import { UserModel } from "../../../../models";
 
-export default () => ({
-  id: null,
+export default (): UserModel => ({
   name: '',
   username: '',
   email: '',
