@@ -35,23 +35,25 @@ interface ITableProps {
   handleChangeRowsPerPage: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>,
   classes: any,
   editable: boolean,
-  handleEdit: Function
+  handleEdit: Function,
+  handleDelete?: Function,
+  handleRestore?: Function
 }
 
-function CommonTableComponent (props: ITableProps) {
-
-  const {
-    headers,
-    rows,
-    page,
-    rowsPerPage,
-    count,
-    handleChangePage,
-    handleChangeRowsPerPage,
-    classes,
-    editable,
-    handleEdit
-  } = props
+function CommonTableComponent ({
+  headers,
+  rows,
+  page,
+  rowsPerPage,
+  count,
+  handleChangePage,
+  handleChangeRowsPerPage,
+  classes,
+  editable,
+  handleEdit,
+  handleDelete,
+  handleRestore
+}: ITableProps) {
 
   const initialPopoverElementMap: {[key: string]: any} = {}
   const [ popoverElementMap, setPopoverElementMap ] = useState(initialPopoverElementMap)
@@ -113,6 +115,8 @@ function CommonTableComponent (props: ITableProps) {
           row={row}
           editable={editable}
           handleEdit={handleEdit}
+          handleDelete={handleDelete}
+          handleRestore={handleRestore}
         />
       </StyledTableCell>
     )

@@ -6,7 +6,7 @@ import { UserModel } from '../models';
 const buildValue = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { post, put } = useRequestServiceValue()
- 
+
   const update = async (user: UserModel) => {
     const { data } = await put('users/update', user)
     return data;
@@ -22,10 +22,22 @@ const buildValue = () => {
     return data;
   }
 
+  const del = async (email: string) => {
+    const { data } = await post('users/delete', { email })
+    return data;
+  }
+
+  const restore = async (email: string) => {
+    const { data } = await post('users/restore', { email })
+    return data;
+  }
+
   return {
     list,
     create,
-    update
+    update,
+    del,
+    restore
   }
 }
 

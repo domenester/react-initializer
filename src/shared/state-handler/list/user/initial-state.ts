@@ -9,6 +9,5 @@ export default () => ({
   take: rowsPerPage,
   skip: 0,
   pageHistory: [0],
-  filter: '',
-  filterHistory: ['']
+  filter: ''
 })

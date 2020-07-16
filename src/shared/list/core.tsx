@@ -13,19 +13,22 @@ const styles: TStyle = (theme: any) => ({
 interface IListComponent {
   requestList: Function,
   handleEdit: (row: TRow) => void,
+  handleDelete: (row: TRow) => void,
+  handleRestore: (row: TRow) => void,
   headers: { [key: string]: string },
   editable: boolean,
   classes: any
 }
 
-function ListComponent (props: IListComponent) {
-  const {
-    requestList,
-    handleEdit,
-    headers,
-    editable,
-    classes
-  } = props
+function ListComponent ({
+  requestList,
+  handleEdit,
+  handleDelete,
+  handleRestore,
+  headers,
+  editable,
+  classes
+}: IListComponent) {
 
   const { dispatch, state } = useUserListStateValue()
   const {
@@ -57,12 +60,24 @@ function ListComponent (props: IListComponent) {
 
   const handleChangeRowsPerPage = async (event: any) => {
     const value = +event.target.value
+    dispatch({ type: 'setRowsPerPage', payload: value })
     if (value > rows.length) {
       dispatch({ type: 'setRows', payload: [] })
       await fetch(value, 0, false)
     }
-    dispatch({ type: 'setRowsPerPage', payload: value })
   };
+
+  const handleDeleteAndFecth = async (row: TRow) => {
+    await handleDelete(row)
+    dispatch({ type: 'resetState', payload: null })
+    await fetch(take, 0, false)
+  }
+
+  const handleRestoreAndFetch = async (row: TRow) => {
+    await handleRestore(row)
+    dispatch({ type: 'resetState', payload: null })
+    await fetch(take, 0, false)
+  }
 
   useEffect( () => {
     async function runAsync() {
@@ -84,6 +99,8 @@ function ListComponent (props: IListComponent) {
       classes={classes}
       editable={!!editable}
       handleEdit={handleEdit}
+      handleDelete={handleDeleteAndFecth}
+      handleRestore={handleRestoreAndFetch}
     ></CommonTable>
   );
 }

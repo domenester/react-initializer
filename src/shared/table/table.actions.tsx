@@ -2,6 +2,7 @@ import React from 'react'
 import { Menu, MenuItem } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import RestoreIcon from '@material-ui/icons/Restore';
 import { TRow } from './table';
 
 interface ITableActionsMenuProps {
@@ -10,23 +11,31 @@ interface ITableActionsMenuProps {
   anchorEl: HTMLElement | null;
   handleClose: () => void;
   editable: boolean;
-  row?: TRow;
-  handleEdit: Function
+  handleEdit: Function;
+  handleDelete?: Function;
+  handleRestore?: Function;
+  row: TRow;
+  labels?: {
+    edit: string,
+    delete: string
+  }
 }
 
-export function TableActionsMenu (props: ITableActionsMenuProps) {
-  const {
-    editable,
-    row,
-    handleEdit,
-    handleClose,
-    open,
-    anchorEl,
-    id
-  } = props
+export function TableActionsMenu ({
+  editable,
+  row,
+  handleEdit,
+  handleDelete,
+  handleRestore,
+  handleClose,
+  open,
+  anchorEl,
+  id,
+  labels
+}: ITableActionsMenuProps) {
 
-  const handleEditAndClose = () => {
-    handleEdit(row)
+  const handleActionAndClose = (handleAction: Function | undefined) => {
+    handleAction && handleAction(row)
     handleClose()
   }
 
@@ -38,14 +47,24 @@ export function TableActionsMenu (props: ITableActionsMenuProps) {
       onClose={handleClose}
     >
       {
-        editable && 
-        <MenuItem onClick={handleEditAndClose}>
-          <EditIcon style={{fill: 'green'}}/> Editar
+        editable && !row.deletedAt && 
+        <MenuItem onClick={() => handleActionAndClose(handleEdit)}>
+          <EditIcon style={{fill: 'green'}}/> { labels?.edit || 'Editar' }
         </MenuItem>
       }
-      <MenuItem onClick={() => {}}>
-        <DeleteIcon style={{fill: 'red'}}/> Remover
-      </MenuItem>
+      {
+        !row.deletedAt &&
+        <MenuItem onClick={() => handleActionAndClose(handleDelete)}>
+          <DeleteIcon style={{fill: 'red'}}/> { labels?.delete || 'Desabilitar' }
+        </MenuItem>
+      }
+      {
+        row.deletedAt &&
+        <MenuItem onClick={() => handleActionAndClose(handleRestore)}>
+          <RestoreIcon style={{fill: 'green'}}/> { labels?.delete || 'Habilitar' }
+        </MenuItem>
+      }
+      
     </Menu>
   )
 }
