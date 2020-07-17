@@ -9,17 +9,15 @@ const buildValue = () => {
 
   const {
     NODE_ENV,
-    REACT_APP_API_URL,
-    TRAVIS_TEST
+    REACT_APP_API_URL
   } = process.env
-  console.log('TRAVIS_TEST: ', TRAVIS_TEST)
   /**
    * TODO: Discover how to use the useHistory hook in tests
    */
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const history = NODE_ENV !== 'test' ? useHistory() : {} as {[key: string]: any}
-  const url = TRAVIS_TEST ? 'http://189f654b7185.ngrok.io' : REACT_APP_API_URL
+  const url = REACT_APP_API_URL
 
   const options = () => {
     return {
