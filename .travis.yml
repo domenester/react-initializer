@@ -16,4 +16,5 @@ deploy:
   on:
     repo: domenester/react-initializer
   skip_cleanup: 'true'
+  region: sa-east-1
   local_dir: build
