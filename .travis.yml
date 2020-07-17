@@ -1,0 +1,10 @@
+deploy:
+  provider: s3
+  access_key_id: AKIA2RVMN3PXYSXV4IFX
+  secret_access_key:
+    secure: qHCASlmmea+k6+CNTkVCA3kzZIwsfm1Vs47GqP92hu2PjQwkgM4HOAvmoOfYRlZIfqjjuu2dUyW9ZbliRuVZNx6Ue3eyeRnMNA5rtqpaUxvS6Ikzgf1rhSVK/Kf6u7cmbQuBVf+3314KmmMP2rvr3yj9JwSwSqK5CTDbtEfvvpQf9jIHZxDAiY6vzC32n5c8Lc1VwrEcLBF5eoOl6ubF4oPEzw0M7VAFFL99b5nQ0RUd3SKoAq8uN7Rj35KHPnNp3vK5nwFCIAVvRIfOkVVZvaD92y1TuK455jchDsv4rz/oyNm+la6od7JO19Oeux6QjbO3i3/kXTr/VQWyKXDKRim7rovfxtHYPcSBvxoo2bzbjIGR/3nbd9a4gV6eAMh2kXCZuYz7fDsloFORX0yA7sSA3ZYFKM3NFusBiKTvpUgLHSDYrvoDYwdmYBjcxB7Ewu45sNaOAnB/XcVfd3xnaPyUNzU+IFWV6KmzgHJbHHIB8kjzA1dwsLKCxjjhM6Gg9Om7k8VyaVOvTiThHw4QHM4RlMync0OHWYzCRzqgxnX81uiW2QtzcNUoTA2H+c8+KLBPuM48sSjeldF1AOfzEvMrq1HjvnCfTpUFMhgT6poTV/99DyPTAmrELDb/oubCwBVpv/rg4xzdb8mXL0xN7Eot+sYrLmSUKyL1gdfyW+4=
+  bucket: diogodomene.tk
+  acl: bucket_owner_full_control
+  on:
+    repo: domenester/react-initializer
+  skip_cleanup: 'true'
