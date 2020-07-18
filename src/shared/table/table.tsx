@@ -15,7 +15,6 @@ import { TableActionsMenu } from './table.actions';
 
 const styles = (theme: any) => ({
   root: {
-    width: '600px',
     marginTop: theme.spacing(3),
   }
 });

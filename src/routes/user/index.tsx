@@ -5,28 +5,34 @@ import { UserHandleForm } from '../../components/forms'
 import { Grid } from '@material-ui/core'
 import { PageHeader } from '../../components/header'
 import { UserListStateProvider } from '../../shared/state-handler/list'
-import { UserFormStateProvider } from '../../shared/state-handler'
+import { useUserFormStateValue } from '../../shared/state-handler'
+import { Modal } from '../../shared/modal'
 
-export const UserRoute = () => (
-  <div className='user-content'>
-    <PageHeader name='Usuários'/>
-    <UserServiceProvider>
-      <UserListStateProvider>
-        <UserFormStateProvider>
-          <Grid
-            container
-            spacing={3}
-            alignItems="flex-start"
-          >
-            <Grid container item xs={6} >
-              <UserHandleForm/>
+export const UserRoute = () => {
+  const { dispatch } = useUserFormStateValue()
+  return (
+    <div className='user-content'>
+      <PageHeader name='Usuários' />
+      <UserServiceProvider>
+        <UserListStateProvider>
+            <Grid
+              container
+              spacing={3}
+              alignItems="flex-start"
+            >
+              <Grid container item>
+                <Modal
+                  open={false}
+                  onClose={() => dispatch({type: 'resetState', payload: null})}
+                  title={'Usuário'}
+                >
+                  <UserHandleForm/>
+                </Modal>
+                <UserList/>
+              </Grid>
             </Grid>
-            <Grid container item xs={6} >
-              <UserList/>
-            </Grid>
-          </Grid>
-        </UserFormStateProvider>
-      </UserListStateProvider>
-    </UserServiceProvider>
-  </div>
-)
+        </UserListStateProvider>
+      </UserServiceProvider>
+    </div>
+  )
+}

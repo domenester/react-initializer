@@ -15,6 +15,7 @@ import {
 import './App.scss';
 import { renderPage } from './utils'
 import { GlobalStateProvider } from './shared/state-handler/state-provider';
+import { UserFormStateProvider } from './shared/state-handler';
 
 export default () => (
   <GlobalStateProvider>
@@ -25,7 +26,11 @@ export default () => (
       />
       <PrivateRoute
         routeProps = {{exact: true, path: '/user'}}
-        Component={() => renderPage(UserRoute)}
+        Component={() => renderPage(
+          () => <UserFormStateProvider>
+                  <UserRoute/>
+                </UserFormStateProvider>  
+        )}
       />
       <Route
         exact

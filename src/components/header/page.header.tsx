@@ -1,6 +1,9 @@
 import React from "react";
 import { Grid, Paper, withStyles } from "@material-ui/core";
 import { TStyle } from "../../shared/table/types";
+import ControlPointIcon from '@material-ui/icons/ControlPoint'
+import './header.scss'
+import { useModalStateValue } from "../../shared/state-handler";
 
 
 interface IPageHeaderProps {
@@ -12,16 +15,26 @@ const styles: TStyle = (theme: any) => ({
   root: {
     padding: '10px',
     fontSize: '24px',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    display: 'flex'
   }
 });
 
-function PageHeaderComponent (props: IPageHeaderProps) {
-  const { classes } = props
+function PageHeaderComponent ({
+  classes,
+  name
+}: IPageHeaderProps) {
+  const { dispatch } = useModalStateValue()
   return (
     <Grid>
       <Paper className={classes.root}>
-        {props.name}
+        {name}
+        <div
+          className="icon-container"
+          onClick={() => dispatch({type: 'open', payload: null})}
+        >
+          <ControlPointIcon style={{fill: 'green'}}/>
+        </div>
       </Paper>
     </Grid>
   )

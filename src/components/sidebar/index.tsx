@@ -22,6 +22,7 @@ import SubListItems from './sub-list-items'
 import { ISideBarListItem } from './interfaces';
 import { Link } from 'react-router-dom'
 import { useAuthServiceValue } from '../../services';
+import { ModalStateProvider } from '../../shared/state-handler';
 
 const themeCreated = createMuiTheme(
   customTheme()
@@ -122,8 +123,10 @@ export default function MiniDrawer(
           </List>
         </Drawer>
         <main className={classes.content}>
-          <div className={classes.toolbar} />
+          <div className={classes.toolbar}></div>
+          <ModalStateProvider>
             {children}
+          </ModalStateProvider>
         </main>
       </div>
     </ThemeProvider>

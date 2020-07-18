@@ -4,6 +4,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RestoreIcon from '@material-ui/icons/Restore';
 import { TRow } from './table';
+import { useModalStateValue } from '../state-handler';
 
 interface ITableActionsMenuProps {
   id: string | undefined;
@@ -34,6 +35,7 @@ export function TableActionsMenu ({
   labels
 }: ITableActionsMenuProps) {
 
+  const { dispatch } = useModalStateValue()
   const handleActionAndClose = (handleAction: Function | undefined) => {
     handleAction && handleAction(row)
     handleClose()
@@ -48,7 +50,10 @@ export function TableActionsMenu ({
     >
       {
         editable && !row.deletedAt && 
-        <MenuItem onClick={() => handleActionAndClose(handleEdit)}>
+        <MenuItem onClick={() => {
+          handleActionAndClose(handleEdit)
+          dispatch({type: 'open', payload: null})
+        }}>
           <EditIcon style={{fill: 'green'}}/> { labels?.edit || 'Editar' }
         </MenuItem>
       }

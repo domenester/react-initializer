@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import EmailInput from '../input/email.input'
-import { Grid, Paper, withStyles } from '@material-ui/core'
+import { Grid, withStyles } from '@material-ui/core'
 import { useUserListStateValue, useUserFormStateValue } from '../../../shared/state-handler'
 import { useUserServiceValue, useAlertServiceValue } from '../../../services'
 import PasswordInput from '../input/password.input'
@@ -90,71 +90,68 @@ function UserHandleFormComponent (props: IHandleForm) {
     }
   }
 
-  const { classes } = props
   return (
-    <Paper className={classes.root}>
-      <form onSubmit={handleSubmit(onSubmit)} className='center'>
-        <Grid container spacing={1}>
-          <Grid container item xs={6} >
-            <TextInput
-              errors={errors}
-              register={register}
-              setValue={setName}
-              defaultValue={name}
-              name='name'
-              label='Nome'
-            />
-          </Grid>
-          <Grid container item xs={6} >
-            <TextInput
-              errors={errors}
-              register={register}
-              setValue={setUsername}
-              defaultValue={username}
-              name='username'
-              label='Username'
-            />
-          </Grid>
-          <Grid container item xs={6} >
-            <EmailInput
-              errors={errors}
-              register={register}
-              setEmail={setEmail}
-              defaultValue={email}
-            />
-          </Grid>
-          <Grid container item xs={6} >
-            <PasswordInput
-              errors={errors}
-              register={register}
-              setPassword={setPassword}
-              defaultValue={password || ''}
-              disabled={!!id}
-            />
-          </Grid>
-          <Grid container item xs={12} justify='flex-end'>
-            <ButtonSuccess
-              type='submit'
-              variant='contained'
-              color='primary'
-              size='large'
-              data-testid={'buttonSubmit'}
-            >
-              Salvar
-            </ButtonSuccess>
-            <ButtonError
-              onClick={onCancel}
-              type='button'
-              variant='contained'
-              size='large'
-              data-testid={'buttonCancel'}
-            >
-              Cancelar
-            </ButtonError>
-          </Grid>
+    <form onSubmit={handleSubmit(onSubmit)} className='center'>
+      <Grid container spacing={1}>
+        <Grid container item xs={12} md={6} sm={12}>
+          <TextInput
+            errors={errors}
+            register={register}
+            setValue={setName}
+            defaultValue={name}
+            name='name'
+            label='Nome'
+          />
         </Grid>
-      </form>
-    </Paper>
+        <Grid container item xs={12} md={6} sm={12}>
+          <TextInput
+            errors={errors}
+            register={register}
+            setValue={setUsername}
+            defaultValue={username}
+            name='username'
+            label='Username'
+          />
+        </Grid>
+        <Grid container item xs={12} md={6} sm={12}>
+          <EmailInput
+            errors={errors}
+            register={register}
+            setEmail={setEmail}
+            defaultValue={email}
+          />
+        </Grid>
+        <Grid container item xs={12} md={6} sm={12}>
+          <PasswordInput
+            errors={errors}
+            register={register}
+            setPassword={setPassword}
+            defaultValue={password || ''}
+            disabled={!!id}
+          />
+        </Grid>
+        <Grid container item xs={12} justify='flex-end'>
+          <ButtonSuccess
+            type='submit'
+            variant='contained'
+            color='primary'
+            size='large'
+            data-testid={'buttonSubmit'}
+          >
+            Salvar
+          </ButtonSuccess>
+          <ButtonError
+            onClick={onCancel}
+            type='button'
+            variant='contained'
+            size='large'
+            data-testid={'buttonCancel'}
+          >
+            Cancelar
+          </ButtonError>
+        </Grid>
+      </Grid>
+    </form>
   )
 }
 

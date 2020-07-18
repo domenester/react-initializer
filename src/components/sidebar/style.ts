@@ -43,21 +43,26 @@ export default (theme: Theme, drawerWidth: number): StyleRules<string, {}> => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(7),
     },
+    [theme.breakpoints.down('sm')]: {
+      width: 0,
+      display:'none'
+    },
+    width: theme.spacing(7)
   },
   toolbar: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
+    width: '100%',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
   content: {
-    flexGrow: 1,
     padding: theme.spacing(3),
+    width: '100%'
   }
 })
