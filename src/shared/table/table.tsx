@@ -16,6 +16,7 @@ import { TableActionsMenu } from './table.actions';
 const styles = (theme: any) => ({
   root: {
     marginTop: theme.spacing(3),
+    overflow: 'auto'
   }
 });
 

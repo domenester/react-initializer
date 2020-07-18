@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import EmailInput from '../input/email.input'
 import { Grid, withStyles } from '@material-ui/core'
-import { useUserListStateValue, useUserFormStateValue } from '../../../shared/state-handler'
+import { useUserListStateValue, useUserFormStateValue, useModalStateValue } from '../../../shared/state-handler'
 import { useUserServiceValue, useAlertServiceValue } from '../../../services'
 import PasswordInput from '../input/password.input'
 import TextInput from '../input/text.input'
@@ -32,6 +32,8 @@ function UserHandleFormComponent (props: IHandleForm) {
 
   const userFormState = useUserFormStateValue().state
   const userFormDispatch = useUserFormStateValue().dispatch
+
+  const modalDispatch = useModalStateValue().dispatch
 
   let {
     id, name, username, email, password
@@ -85,6 +87,7 @@ function UserHandleFormComponent (props: IHandleForm) {
     const response = await createOrUpdate(body)
     if (response) {
       success(response.message)
+      modalDispatch({type: 'close', payload: null})
       await fetchUserList()
       onCancel()
     }
