@@ -11,7 +11,7 @@ const buildValue = () => {
       .map(key => errors[key].message).join(', ')
     
     dispatch({
-      type: 'setSnackbarOpen',
+      type: 'set',
       payload: {
         open: true,
         message: messages,
@@ -20,14 +20,16 @@ const buildValue = () => {
     })
   }
 
-  const show = (message: string, severity = 'success') => dispatch({
-    type: 'setSnackbarOpen',
-    payload: {
-      open: true,
-      message,
-      severity
-    }
-  })
+  const show = (message: string, severity = 'success') => {
+    dispatch({
+      type: 'set',
+      payload: {
+        open: true,
+        message,
+        severity
+      }
+    })
+  }
 
   return {
     multipleErrors,

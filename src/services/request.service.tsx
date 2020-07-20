@@ -58,7 +58,7 @@ const buildValue = () => {
       history.push('/login')
     }
     dispatch({
-      type: 'setSnackbarOpen',
+      type: 'set',
       payload: {
         open: true,
         message: error?.response?.data?.message || error.message,

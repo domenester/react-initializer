@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import { RequestServiceProvider, useRequestServiceValue } from './request.service';
 import ProviderGenerator from '../shared/provider-generator';
 import { UserModel } from '../models';
+import { UserListStateProvider } from '../shared/state-handler';
 
 const buildValue = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { post, put } = useRequestServiceValue()
 
   const update = async (user: UserModel) => {
@@ -31,7 +32,6 @@ const buildValue = () => {
     const { data } = await post('users/restore', { email })
     return data;
   }
-
   return {
     list,
     create,
@@ -48,9 +48,11 @@ export const UserServiceProviderGenerated = providerGenerated.provider
 const UserServiceProvider = ({ children }: any) => {
   return (
     <RequestServiceProvider>
-      <UserServiceProviderGenerated>
-        {children}
-      </UserServiceProviderGenerated>
+      <UserListStateProvider>
+        <UserServiceProviderGenerated>
+          {children}
+        </UserServiceProviderGenerated>
+      </UserListStateProvider>
     </RequestServiceProvider>
   )
 }

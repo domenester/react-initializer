@@ -2,12 +2,13 @@ import React from 'react';
 import { useUserServiceValue, useAlertServiceValue } from '../../../services';
 import { TRow } from '../../../shared/table'
 import { useUserFormStateValue } from '../../../shared/state-handler';
-import { List, ListFilter } from '../../../shared/list';
+import { List, ListFilter } from '../../../shared/list'
 
 export const UserList = () => {
   const { list, del, restore } = useUserServiceValue()
 
   const userFormDispatch = useUserFormStateValue().dispatch
+
   const { success } = useAlertServiceValue()
 
   const handleEdit = (row: TRow) => {

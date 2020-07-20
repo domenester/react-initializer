@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles'
 import { CommonTable, TRow } from '../../shared/table'
-import { TStyle } from '../../shared/table/types';
-import { useUserListStateValue } from '../../shared/state-handler';
+import { TStyle } from '../../shared/table/types'
+import { useUserListStateValue } from '../../shared/state-handler'
+import { useUserFetch } from '../../hooks';
 
 const styles: TStyle = (theme: any) => ({
   root: {
@@ -21,7 +22,6 @@ interface IListComponent {
 }
 
 function ListComponent ({
-  requestList,
   handleEdit,
   handleDelete,
   handleRestore,
@@ -38,16 +38,10 @@ function ListComponent ({
     count,
     take,
     skip,
-    pageHistory,
-    filter
+    pageHistory
   } = state
 
-  async function fetch (take: number, skip: number, accumulate: boolean = true) {
-    const data: any = await requestList(take, skip, filter)
-    const newRows = [ ...( (accumulate && rows) || []), ...data.rows ]
-    dispatch({ type: 'setRows', payload: newRows })
-    dispatch({ type: 'setCount', payload: data.count })
-  }
+  const fetch = useUserFetch()
 
   const handleChangePage = async (event: any, newPage: number) => {
     let newSkip = newPage > page ? skip + rowsPerPage : skip - rowsPerPage
@@ -85,7 +79,7 @@ function ListComponent ({
     }
     runAsync();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter])
+  }, [])
 
   return (
     <CommonTable

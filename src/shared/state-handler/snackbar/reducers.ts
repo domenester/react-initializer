@@ -1,20 +1,32 @@
-import { Color } from "@material-ui/lab/Alert"
 import { TReducers } from "../interfaces"
+import { Color } from "@material-ui/core"
 
 interface ISnackbarReducer {
   open: boolean,
   severity: Color,
-  message: string
+  message: string,
+  history: string
 }
 
 export const SnackbarReducers: TReducers = {
-  setSnackbarOpen: (state: any, payload: ISnackbarReducer) => {
+  set: (state: any, payload: ISnackbarReducer) => {
     return {
       ...state,
-      snackbar: {
-        ...state.snackbar,
-        ...payload
-      }
+      ...payload
+    }
+  },
+  show: (state: any, payload: any) => {
+    return {
+      ...state,
+      open: true,
+      lastCall: ''
+    }
+  },
+  hide: (state: any, payload: any) => {
+    return {
+      ...state,
+      open: false,
+      lastCall: window.location.pathname
     }
   }
 }
