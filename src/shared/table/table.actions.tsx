@@ -50,22 +50,31 @@ export function TableActionsMenu ({
     >
       {
         editable && !row.deletedAt && 
-        <MenuItem onClick={() => {
-          handleActionAndClose(handleEdit)
-          dispatch({type: 'open', payload: null})
-        }}>
+        <MenuItem
+          data-testid={'table-action-edit'}
+          onClick={() => {
+            handleActionAndClose(handleEdit)
+            dispatch({type: 'open', payload: null})
+          }}
+        >
           <EditIcon style={{fill: 'green'}}/> { labels?.edit || 'Editar' }
         </MenuItem>
       }
       {
         !row.deletedAt &&
-        <MenuItem onClick={() => handleActionAndClose(handleDelete)}>
+        <MenuItem
+          onClick={() => handleActionAndClose(handleDelete)}
+          data-testid={'table-action-disable'}
+        >
           <DeleteIcon style={{fill: 'red'}}/> { labels?.delete || 'Desabilitar' }
         </MenuItem>
       }
       {
         row.deletedAt &&
-        <MenuItem onClick={() => handleActionAndClose(handleRestore)}>
+        <MenuItem
+          onClick={() => handleActionAndClose(handleRestore)}
+          data-testid={'table-action-enable'}
+        >
           <RestoreIcon style={{fill: 'green'}}/> { labels?.delete || 'Habilitar' }
         </MenuItem>
       }

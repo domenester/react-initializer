@@ -30,6 +30,7 @@ function PageHeaderComponent ({
       <Paper className={classes.root}>
         {name}
         <div
+          data-testid="openAddUserModal"
           className="icon-container"
           onClick={() => dispatch({type: 'open', payload: null})}
         >

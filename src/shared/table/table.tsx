@@ -70,14 +70,21 @@ function CommonTableComponent ({
     </StyledTableCell>
   ]
 
-  const buildRowCell = (row: TRow) => ([
+  const buildRowCell = (row: TRow, index: number) => ([
     ...Object.keys(headers)
     .filter(key => key !== 'id')
-    .map(key => <StyledTableCell key={key}>{row[key] && row[key]}</StyledTableCell>),
-    buildActionCell(row)
+    .map(key => 
+      <StyledTableCell
+        key={key}
+        data-testid={`${key}Cell`}
+      >
+        {row[key] && row[key]}
+      </StyledTableCell>
+    ),
+    buildActionCell(row, index)
   ])
 
-  const buildActionCell = (row: TRow) => {
+  const buildActionCell = (row: TRow, index: number) => {
     const id = row.id
     const popoverId = `popover-${id}`
 
@@ -103,6 +110,7 @@ function CommonTableComponent ({
         <div
           aria-controls={idName}
           aria-haspopup="true"
+          data-testid={`table-action-trigger-${index}`}
           onClick={(event: React.MouseEvent<HTMLElement>) => handleClick(popoverId, event)}
         >
           <DehazeIcon/>
@@ -132,9 +140,9 @@ function CommonTableComponent ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: TRow) => (
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: TRow, index) => (
               <StyledTableRow key={row.id} role={'table-row'}>
-                { buildRowCell(row) }
+                { buildRowCell(row, index) }
               </StyledTableRow>
             ))}
             {emptyRows > 0 && (

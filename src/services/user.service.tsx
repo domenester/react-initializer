@@ -23,7 +23,12 @@ const buildValue = () => {
     return data;
   }
 
-  const del = async (email: string) => {
+  const remove = async (email: string) => {
+    const { data } = await post('users/remove', { email })
+    return data;
+  }
+
+  const softeDelete = async (email: string) => {
     const { data } = await post('users/delete', { email })
     return data;
   }
@@ -36,8 +41,9 @@ const buildValue = () => {
     list,
     create,
     update,
-    del,
-    restore
+    softeDelete,
+    restore,
+    remove
   }
 }
 

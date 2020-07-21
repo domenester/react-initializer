@@ -5,7 +5,7 @@ import { useUserFormStateValue } from '../../../shared/state-handler';
 import { List, ListFilter } from '../../../shared/list'
 
 export const UserList = () => {
-  const { list, del, restore } = useUserServiceValue()
+  const { list, softeDelete, restore } = useUserServiceValue()
 
   const userFormDispatch = useUserFormStateValue().dispatch
 
@@ -21,7 +21,7 @@ export const UserList = () => {
   }
 
   const handleDelete = async (row: TRow) => {
-    const { message } = await del(row.email)
+    const { message } = await softeDelete(row.email)
     if (message) {
       success(message)
     }

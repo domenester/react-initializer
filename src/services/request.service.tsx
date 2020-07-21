@@ -55,9 +55,6 @@ const buildValue = () => {
   }
 
   const handleError = (error: any) => {
-    if (error?.response?.data?.statusCode === 401) {
-      history.push('/login')
-    }
     dispatch({
       type: 'set',
       payload: {
@@ -66,6 +63,9 @@ const buildValue = () => {
         severity: 'error'
       }
     })
+    if (error?.response?.data?.statusCode === 401) {
+      history.push('/login')
+    }
   }
 
   return {

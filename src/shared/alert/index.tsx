@@ -7,7 +7,7 @@ import MuiAlert from '@material-ui/lab/Alert'
 export const Alert = () => {
   const { state, dispatch } = useSnackBarStateValue()
   const { open, message, severity } = state
-  const { anchorOrigin, autoHideDuration } = snackbarConfig
+  const { anchorOrigin, autoHideDuration } = snackbarConfig()
   const handleSnackbarClose = () => dispatch(
     { type: 'hide', payload: null}
   )

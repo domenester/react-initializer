@@ -1,7 +1,7 @@
 import React from 'react';
 import ForgotPasswordForm from '../forgot-password'
 import { fireEvent, act } from '@testing-library/react';
-import { userDefault } from '../../../mocks'
+import { UserMocks } from '../../../mocks'
 import { renderWithRouterAndContext } from '../../../utils'
 import { PasswordServiceProvider } from '../../../services'
 
@@ -10,6 +10,7 @@ import 'mutationobserver-shim';
 
 
 describe('Form Login Testes', () => {
+  const userDefault = UserMocks().default
   const componentToRender = (children?: any) => (
     <PasswordServiceProvider>
       {children}

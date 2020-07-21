@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginForm from '../login';
 import { fireEvent, act, waitFor } from '@testing-library/react';
-import { userDefault } from '../../../mocks'
+import { UserMocks } from '../../../mocks'
 import { renderWithRouterAndContext } from '../../../utils'
 import { useAuthServiceValue, AuthServiceProvider } from '../../../services'
 import { renderHook } from '@testing-library/react-hooks';
@@ -11,6 +11,7 @@ import 'mutationobserver-shim';
 
 
 describe('Form Login Testes', () => {
+  const userDefault = UserMocks().default
   const render = () => renderWithRouterAndContext(
     <AuthServiceProvider>
       <LoginForm />
