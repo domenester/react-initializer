@@ -6,7 +6,6 @@ import {
   useUserStateValue
 } from '../../../shared/state-handler'
 import { useHistory } from 'react-router-dom'
-import { isNodeEnvTest } from '../../../utils'
 import EmailInput from '../input/email.input'
 import PasswordInput from '../input/password.input'
 
