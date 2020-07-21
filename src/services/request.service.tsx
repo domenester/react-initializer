@@ -16,14 +16,15 @@ const buildValue = () => {
    */
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const history = NODE_ENV !== 'test' ? useHistory() : {} as {[key: string]: any}
+  const history = NODE_ENV !== 'test' ? useHistory() : { push: () => {}} as {[key: string]: any}
   const url = REACT_APP_API_URL
 
   const options = () => {
+    const token = localStorage.getItem('token')
     return {
       headers: {
         userid: localStorage.getItem('userid') || '',
-        'Authorization': `Bearer ${localStorage.getItem('token')}` || '',
+        ...( token && { 'Authorization': `Bearer ${token}` }),
         'Content-Type': 'application/json'
       },
     };

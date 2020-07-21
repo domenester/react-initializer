@@ -6,7 +6,8 @@ const listItems: Array<ISideBarListItem> = [
   {
     text: 'User',
     icon: <PersonIcon />,
-    link: '/user'
+    link: '/user',
+    dataTestId: 'sidebar-user'
   }
 ]
 

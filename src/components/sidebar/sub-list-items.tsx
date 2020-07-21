@@ -7,6 +7,7 @@ const subListItems: Array<ISideBarListItem> = [
     text: 'Logout',
     icon: <ExitToAppIcon />,
     link: '/logout',
+    dataTestId: 'sidebar-logout',
     isLogout: true
   }
 ]

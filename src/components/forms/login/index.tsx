@@ -23,15 +23,10 @@ export default function LoginForm () {
     if (Object.keys(errors).length) {
       return multipleErrors(errors)
     }
-
     const response = await login(email, password)
     if (response) {
       userState.dispatch({ type: 'setUser', payload: response.user })
       history.push('/')
-      /**
-       * TODO: Find a way to app load home component to exclude this page refresh
-       */
-      !isNodeEnvTest() && window.location.reload()
     }
   }
 

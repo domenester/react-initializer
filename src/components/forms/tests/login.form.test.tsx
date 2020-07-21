@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginForm from '../login';
-import { fireEvent, act, wait } from '@testing-library/react';
+import { fireEvent, act, waitFor } from '@testing-library/react';
 import { userDefault } from '../../../mocks'
 import { renderWithRouterAndContext } from '../../../utils'
 import { useAuthServiceValue, AuthServiceProvider } from '../../../services'
@@ -16,6 +16,7 @@ describe('Form Login Testes', () => {
       <LoginForm />
     </AuthServiceProvider>
   )
+
   const useAuthService = () => renderHook(
     // eslint-disable-next-line react-hooks/rules-of-hooks
     () => useAuthServiceValue(),
@@ -50,7 +51,7 @@ describe('Form Login Testes', () => {
       fireEvent.change(passwordInput, { target: { value: userDefault.password } });
     })
     fireEvent.click(buttonSubmit);
-    await wait (() => {
+    await waitFor (() => {
       expect(isAuthenticated()).toBe(true)
     })
   })

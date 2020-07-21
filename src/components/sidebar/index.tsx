@@ -51,7 +51,13 @@ export default function MiniDrawer(
   };
 
   const buildListLinkItem = ( item: ISideBarListItem, key: number ) => (
-    <ListItem button component={Link} to={item.link} key={key}>
+    <ListItem
+      button
+      component={Link}
+      to={item.link}
+      key={key}
+      data-testid={item.dataTestId}
+    >
       <ListItemIcon>
         {item.icon}  
       </ListItemIcon>
@@ -60,7 +66,12 @@ export default function MiniDrawer(
   )
 
   const buildListActionItem = ( item: ISideBarListItem, key: number ) => (
-    <ListItem button onClick={logout} key={key}>
+    <ListItem
+      button
+      onClick={logout}
+      key={key}
+      data-testid={item.dataTestId}
+    >
       <ListItemIcon>
         {item.icon}  
       </ListItemIcon>

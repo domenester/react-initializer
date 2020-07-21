@@ -133,7 +133,7 @@ function CommonTableComponent ({
           </TableHead>
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: TRow) => (
-              <StyledTableRow key={row.id}>
+              <StyledTableRow key={row.id} role={'table-row'}>
                 { buildRowCell(row) }
               </StyledTableRow>
             ))}
