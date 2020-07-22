@@ -86,7 +86,7 @@ describe('User E2E', () => {
 
   it("should edit user", async () => {
     const { valid } = userMocks.update
-    const { getByTestId, getByText } = render(<App />)
+    const { getByTestId, getByText, queryByText } = render(<App />)
     await useUserRoute(getByTestId)
     let triggerActionButton: HTMLElement;
     await waitFor(() => {
@@ -113,9 +113,9 @@ describe('User E2E', () => {
     })
 
     await waitFor(() => {
-      expect(getByText(valid.email)).toBeDefined()
-      expect(getByText(valid.username)).toBeDefined()
-      expect(getByText(valid.name)).toBeDefined()
+      expect(queryByText(valid.email)).toBeDefined()
+      expect(queryByText(valid.username)).toBeDefined()
+      expect(queryByText(valid.name)).toBeDefined()
     })
   })
 
