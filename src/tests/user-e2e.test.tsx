@@ -13,7 +13,7 @@ import { UserMocks } from '../mocks';
 
 (global as any).MutationObserver = window.MutationObserver;
 
-describe.skip('User E2E', () => {
+describe('User E2E', () => {
 
   const userMocks = UserMocks()
   const { email, password } = userMocks.default
