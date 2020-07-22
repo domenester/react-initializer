@@ -106,8 +106,10 @@ describe('User E2E', () => {
         fireEvent.change(usernameInput, { target: { value: valid.username } })
         fireEvent.change(nameInput, { target: { value: valid.name } })
       })
-      const buttonSubmit = getByTestId('buttonSubmit')
-      fireEvent.click(buttonSubmit)
+      await waitFor(() => {
+        const buttonSubmit = getByTestId('buttonSubmit')
+        fireEvent.click(buttonSubmit)
+      })
     })
 
     await waitFor(() => {
