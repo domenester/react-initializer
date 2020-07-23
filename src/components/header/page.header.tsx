@@ -8,6 +8,7 @@ import { useModalStateValue } from "../../shared/state-handler";
 
 interface IPageHeaderProps {
   name: string,
+  onModalOpen?: () => any
   classes: any
 } 
 
@@ -22,6 +23,7 @@ const styles: TStyle = (theme: any) => ({
 
 function PageHeaderComponent ({
   classes,
+  onModalOpen,
   name
 }: IPageHeaderProps) {
   const { dispatch } = useModalStateValue()
@@ -30,9 +32,12 @@ function PageHeaderComponent ({
       <Paper className={classes.root}>
         {name}
         <div
-          data-testid="openAddUserModal"
+          data-testid="open-add-modal"
           className="icon-container"
-          onClick={() => dispatch({type: 'open', payload: null})}
+          onClick={() => {
+            onModalOpen && onModalOpen()
+            dispatch({type: 'open', payload: null})
+          }}
         >
           <ControlPointIcon style={{fill: 'green'}}/>
         </div>

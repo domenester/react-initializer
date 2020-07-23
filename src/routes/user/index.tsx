@@ -5,31 +5,39 @@ import { UserHandleForm } from '../../components/forms'
 import { Grid } from '@material-ui/core'
 import { PageHeader } from '../../components/header'
 import { Modal } from '../../shared/modal'
-import { UserFormStateProvider } from '../../shared/state-handler'
+import { useUserFormStateValue, UserFormStateProvider } from '../../shared/state-handler'
 
-export const UserRoute = () => {
+export const Route = () => {
+  const { dispatch } = useUserFormStateValue()
   return (
     <div className='user-content'>
-      <PageHeader name='Usuários' />
+      <PageHeader
+        name='Usuários'
+        onModalOpen={ () => dispatch({type: 'resetState', payload: null}) }
+      />
       <UserServiceProvider>
-        <UserFormStateProvider>
-          <Grid
-            container
-            spacing={3}
-            alignItems="flex-start"
-          >
-            <Grid container item>
-              <Modal
-                open={false}
-                title={'Usuário'}
-              >
-                <UserHandleForm/>
-              </Modal>
-              <UserList/>
-            </Grid>
+        <Grid
+          container
+          spacing={3}
+          alignItems="flex-start"
+        >
+          <Grid container item>
+            <Modal
+              open={false}
+              title={'Usuário'}
+            >
+              <UserHandleForm/>
+            </Modal>
+            <UserList/>
           </Grid>
-        </UserFormStateProvider>
+        </Grid>
       </UserServiceProvider>
     </div>
   )
 }
+
+export const UserRoute = () => (
+  <UserFormStateProvider>
+    <Route/>
+  </UserFormStateProvider>
+)
