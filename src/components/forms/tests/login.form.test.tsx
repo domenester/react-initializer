@@ -1,59 +1,48 @@
 import React from 'react';
 import LoginForm from '../login';
-import { fireEvent, act, waitFor } from '@testing-library/react';
+import { fireEvent, act } from '@testing-library/react';
 import { UserMocks } from '../../../mocks'
 import { renderWithRouterAndContext } from '../../../utils'
-import { useAuthServiceValue, AuthServiceProvider } from '../../../services'
-import { renderHook } from '@testing-library/react-hooks';
+import { AuthServiceProvider } from '../../../services'
 
 import 'mutationobserver-shim';
 (global as any).MutationObserver = window.MutationObserver;
 
 
-describe('Form Login Testes', () => {
+describe('Login Form', () => {
   const userDefault = UserMocks().default
-  const render = () => renderWithRouterAndContext(
+  const render = (onSubmit: jest.Mock) => renderWithRouterAndContext(
     <AuthServiceProvider>
-      <LoginForm />
+      <LoginForm onSubmitTest={onSubmit}/>
     </AuthServiceProvider>
   )
 
-  const useAuthService = () => renderHook(
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    () => useAuthServiceValue(),
-    { wrapper: AuthServiceProvider }
-  );
-
-  it("expect to not be authenticated after login with invalid email", async () => {
-    const { getByTestId } = render()
-    const { result: { current: { isAuthenticated } } } = useAuthService()
+  it("expect to throw with invalid email", async () => {
+    const onSubmit = jest.fn()
+    const { getByTestId } = render(onSubmit)
     const emailInput = getByTestId('emailInput')
     const passwordInput = getByTestId('passwordInput')
     const buttonSubmit = getByTestId('buttonSubmit')
-    expect(isAuthenticated()).toBe(false)
     await act(async () => {
       fireEvent.click(emailInput)
       fireEvent.change(emailInput, { target: { value: 'invalidemail' } })
       fireEvent.change(passwordInput, { target: { value: userDefault.password } })
       fireEvent.click(buttonSubmit)
     })
-    expect(isAuthenticated()).toBe(false)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
   })
 
-  it("expect to be authenticated after login", async () => {
-    const { getByTestId } = render()
-    const { result: { current: { isAuthenticated } } } = useAuthService()
+  it("expect to submit", async () => {
+    const onSubmit = jest.fn()
+    const { getByTestId } = render(onSubmit)
     const emailInput = getByTestId('emailInput')
     const passwordInput = getByTestId('passwordInput')
-    const buttonSubmit = getByTestId('buttonSubmit');
-    expect(isAuthenticated()).toBe(false)
+    const buttonSubmit = getByTestId('buttonSubmit')
     await act(async () => {
       fireEvent.change(emailInput, { target: { value: userDefault.email } });
       fireEvent.change(passwordInput, { target: { value: userDefault.password } });
+      fireEvent.click(buttonSubmit);
     })
-    fireEvent.click(buttonSubmit);
-    await waitFor (() => {
-      expect(isAuthenticated()).toBe(true)
-    })
+    expect(onSubmit).toHaveBeenCalledTimes(1)
   })
 })

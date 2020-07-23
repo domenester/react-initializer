@@ -9,7 +9,11 @@ import { useHistory } from 'react-router-dom'
 import EmailInput from '../input/email.input'
 import PasswordInput from '../input/password.input'
 
-export default function LoginForm () {
+interface ILoginFormProps {
+  onSubmitTest?: () => void
+}
+
+export default function LoginForm ({onSubmitTest}: ILoginFormProps) {
 
   const { login } = useAuthServiceValue()
   const history = useHistory()
@@ -31,7 +35,7 @@ export default function LoginForm () {
 
   const { handleSubmit, register, errors } = useForm();
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='center'>
+    <form onSubmit={handleSubmit(onSubmitTest || onSubmit)} className='center'>
       <Grid container spacing={1}>
         <Grid container item xs={12} >
           <EmailInput
