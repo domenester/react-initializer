@@ -1,7 +1,6 @@
 import React from 'react';
 import { Router, Route } from 'react-router-dom';
-import { customHistory } from './services'
-
+import { customHistory } from './services';
 import {
   PrivateRoute,
   LoginRoute,

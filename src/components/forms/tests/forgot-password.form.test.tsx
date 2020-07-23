@@ -24,7 +24,7 @@ describe('Form Login Testes', () => {
     const emailInput = getByTestId('emailInput')
     const buttonSubmit = getByTestId('buttonSubmit')
     await act(async () => {
-      fireEvent.change(emailInput, { target: { value: 'invalidemail' } })
+      fireEvent.change(emailInput, { target: { defaultValue: 'invalidemail' } })
       fireEvent.click(buttonSubmit)
     })
   })
@@ -34,7 +34,7 @@ describe('Form Login Testes', () => {
     const emailInput = getByTestId('emailInput')
     const buttonSubmit = getByTestId('buttonSubmit');
     await act(async () => {
-      fireEvent.change(emailInput, { target: { value: userDefault.email } });
+      fireEvent.change(emailInput, { target: { defaultValue: userDefault.email } });
       fireEvent.click(buttonSubmit);
     })
   })

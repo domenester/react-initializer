@@ -1,5 +1,6 @@
 import React from "react";
 import { TextField } from "@material-ui/core";
+import { ErrorMessages } from "../../../messages/error";
 
 interface IEmailInputProps {
   errors: any,
@@ -16,23 +17,23 @@ export default function EmailInput ({
 }: IEmailInputProps) {
   return (
     <TextField
-      onChange={(event) => setEmail(event.target.value)}
       fullWidth
+      onChange={(event) => setEmail(event.target.value)}
       error={!!errors.email}
       label={'Email'}
       name='email'
       autoComplete='email'
       margin='normal'
       variant='outlined'
-      value={defaultValue}
+      defaultValue={defaultValue}
       helperText={errors.email ? errors.email.message : ''}
       inputProps={{
         ref: register({
           required: 'Campo Obrigatório',
           pattern: {
             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-            message: 'Email inválido',
-          },
+            message: ErrorMessages.form.validation.email,
+          }
         }),
         'data-testid': 'emailInput'
       }}

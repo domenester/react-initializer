@@ -11,10 +11,11 @@ const useAuthService = () => renderHook(
 );
 
 export const useLoginTest = async (
-  email: string, password: string, shouldFail: boolean = false
+  email: string,
+  password: string,
+  shouldFail: boolean = false
 ) => {
-  const dom = render(<App />)
-  const { getByTestId } = dom
+  const { getByTestId } = render(<App/>)
   const { result: { current: { isAuthenticated } } } = useAuthService()
   const emailInput = getByTestId('emailInput')
   const passwordInput = getByTestId('passwordInput')
@@ -30,6 +31,7 @@ export const useLoginTest = async (
   })
   await waitFor (() => {
     expect(isAuthenticated()).toBe(!shouldFail)
+    console.log('getByTestId(sidebar-user): ', getByTestId('sidebar-user'))
+    expect(getByTestId('sidebar-user')).toBeDefined()
   })
-  return dom
 }

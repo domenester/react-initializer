@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { useSnackBarStateValue } from '../shared/state-handler'
 import ProviderGenerator from '../shared/provider-generator';
 import { useHistory } from 'react-router-dom';
+import { useAlertServiceValue } from './alert.service';
 
 const buildValue = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { dispatch } = useSnackBarStateValue()
+  const alertError = useAlertServiceValue().error
 
   const {
     NODE_ENV,
@@ -55,14 +55,7 @@ const buildValue = () => {
   }
 
   const handleError = (error: any) => {
-    dispatch({
-      type: 'set',
-      payload: {
-        open: true,
-        message: error?.response?.data?.message || error.message,
-        severity: 'error'
-      }
-    })
+    alertError && alertError( error?.response?.data?.message || error.message )
     if (error?.response?.data?.statusCode === 401) {
       history.push('/login')
     }

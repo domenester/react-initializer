@@ -1,6 +1,6 @@
 import React from 'react';
 import ProviderGenerator from '../shared/provider-generator';
-import { useSnackBarStateValue } from '../shared/state-handler';
+import { useSnackBarStateValue, SnackBarStateProvider } from '../shared/state-handler';
 
 const buildValue = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -45,9 +45,11 @@ export const AlertServiceProviderGenerated = providerGenerated.provider
 
 const AlertServiceProvider = ({ children }: any) => {
   return (
-    <AlertServiceProviderGenerated>
-      {children}
-    </AlertServiceProviderGenerated>
+    <SnackBarStateProvider>
+      <AlertServiceProviderGenerated>
+        {children}
+      </AlertServiceProviderGenerated>
+    </SnackBarStateProvider>
   )
 }
 

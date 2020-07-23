@@ -1,5 +1,5 @@
 import { createBrowserHistory, createMemoryHistory } from "history";
-import { isNodeEnvTest } from "../utils";
+import { isNodeEnvTest } from "../utils/tests";
 
 const customHistory = (
   isNodeEnvTest() ?

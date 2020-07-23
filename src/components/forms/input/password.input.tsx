@@ -27,7 +27,7 @@ export default function PasswordInput ({
       autoComplete='current-password'
       margin='normal'
       variant='outlined'
-      value={defaultValue}
+      defaultValue={defaultValue}
       disabled={disabled}
       helperText={errors.password ? errors.password.message : ''}
       onChange={(event) => setPassword(event.target.value)}

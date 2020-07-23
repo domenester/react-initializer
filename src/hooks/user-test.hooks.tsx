@@ -1,7 +1,7 @@
-import { act, fireEvent } from "@testing-library/react"
+import { act, fireEvent, waitFor } from "@testing-library/react"
 
 export const useUserRoute = async (getByTestId: any) => {
-  const sidebarUserButton = getByTestId('sidebar-user')
+  const sidebarUserButton = await waitFor( () => getByTestId('sidebar-user'))
   await act( async () => {
     fireEvent.click(sidebarUserButton)
   })

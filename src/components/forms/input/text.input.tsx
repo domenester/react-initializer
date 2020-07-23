@@ -28,7 +28,7 @@ export default function TextInput ({
       autoComplete={label}
       margin='normal'
       variant='outlined'
-      value={defaultValue}
+      defaultValue={defaultValue}
       helperText={errors[name] ? errors[name].message : ''}
       inputProps={{
         ref: register({

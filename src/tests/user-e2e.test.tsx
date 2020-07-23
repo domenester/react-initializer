@@ -13,7 +13,7 @@ import { UserMocks } from '../mocks';
 
 (global as any).MutationObserver = window.MutationObserver;
 
-describe('User E2E', () => {
+describe.skip('User E2E', () => {
 
   const userMocks = UserMocks()
   const { email, password } = userMocks.default
@@ -86,7 +86,7 @@ describe('User E2E', () => {
 
   it("should edit user", async () => {
     const { valid } = userMocks.update
-    const { getByTestId, getByText, queryByText } = render(<App />)
+    const { getByTestId, queryByText } = render(<App />)
     await useUserRoute(getByTestId)
     let triggerActionButton: HTMLElement;
     await waitFor(() => {

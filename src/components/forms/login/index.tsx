@@ -18,7 +18,7 @@ export default function LoginForm () {
   const [ password, setPassword ] = useState('')
   const { multipleErrors } = useAlertServiceValue()
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async () => {
     if (Object.keys(errors).length) {
       return multipleErrors(errors)
     }
@@ -30,7 +30,6 @@ export default function LoginForm () {
   }
 
   const { handleSubmit, register, errors } = useForm();
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='center'>
       <Grid container spacing={1}>

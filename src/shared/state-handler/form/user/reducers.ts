@@ -31,5 +31,10 @@ export const UserFormReducers: TReducers =  {
       ...state,
       name: payload
     }
-  )
+  ),
+  setId: (state: any, payload: any) => ({
+    ...state,
+    id: payload
+  }
+)
 }

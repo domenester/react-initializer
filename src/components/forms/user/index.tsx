@@ -20,10 +20,11 @@ const styles: TStyle = (theme: any) => ({
 });
 
 interface IHandleForm {
+  onSubmitTest?: () => void
   classes: any
 }
 
-function UserHandleFormComponent (props: IHandleForm) {
+function UserHandleFormComponent ({onSubmitTest}: IHandleForm) {
 
   const { multipleErrors, success } = useAlertServiceValue()
 
@@ -33,25 +34,19 @@ function UserHandleFormComponent (props: IHandleForm) {
   const userFormDispatch = useUserFormStateValue().dispatch
 
   const modalDispatch = useModalStateValue().dispatch
+
   const { state: { take } } = useUserListStateValue()
   const userListDispatch = useUserListStateValue().dispatch
+
   const fetch = useUserFetch()
   let {
     id, name, username, email, password
   } = userFormState
 
-  const setName = (value: string) => 
-    userFormDispatch({type: 'setName', payload: value})
-
-  const setUsername = (value: string) => 
-    userFormDispatch({type: 'setUsername', payload: value})
-  
-  const setEmail = (value: string) =>
-    userFormDispatch({type: 'setEmail', payload: value})
-  
-  const setPassword = (value: string) =>
-    userFormDispatch({type: 'setPassword', payload: value})
-
+  const setName = (value: string) => userFormDispatch({type: 'setName', payload: value})
+  const setUsername = (value: string) => userFormDispatch({type: 'setUsername', payload: value})  
+  const setEmail = (value: string) => userFormDispatch({type: 'setEmail', payload: value})  
+  const setPassword = (value: string) => userFormDispatch({type: 'setPassword', payload: value})
   const { handleSubmit, register, reset, errors } = useForm();
 
   const onCancel = () => {
@@ -90,7 +85,11 @@ function UserHandleFormComponent (props: IHandleForm) {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className='center'>
+      <form 
+        onSubmit={handleSubmit(onSubmitTest || onSubmit)}
+        className='center'
+        data-testid='form'
+      >
         <Grid container spacing={1}>
           <Grid container item xs={12} md={6} sm={12}>
             <TextInput
@@ -155,4 +154,4 @@ function UserHandleFormComponent (props: IHandleForm) {
   )
 }
 
-export const UserHandleForm = withStyles(styles)(UserHandleFormComponent);
+export default withStyles(styles)(UserHandleFormComponent);

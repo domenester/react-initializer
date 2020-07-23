@@ -9,7 +9,7 @@ interface IPrivateRouteComponentProps {
 }
 
 export const PrivateRouteComponent = ({ Component, routeProps }: IPrivateRouteComponentProps) => {
-  const { isAuthenticated } = useAuthServiceValue();
+  const { isAuthenticated } = useAuthServiceValue()
   if (
     window.location.pathname === routeProps.path
     && !isAuthenticated()
