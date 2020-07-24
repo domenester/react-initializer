@@ -21,14 +21,14 @@ export const UserList = () => {
   }
 
   const handleDelete = async (row: TRow) => {
-    const { message } = await softeDelete(row.email)
+    const { message } = await softeDelete(row.email as string)
     if (message) {
       success(message)
     }
   }
 
   const handleRestore = async (row: TRow) => {
-    const { message } = await restore(row.email)
+    const { message } = await restore(row.email as string)
     if (message) {
       success(message)
     }

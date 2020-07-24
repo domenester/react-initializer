@@ -1,15 +1,15 @@
 import React, { createContext, useContext } from 'react';
 
-interface IProviderGenerator {
+interface IProviderGenerator<HookType> {
   context: React.Context<any>;
   provider: ({ children }: any) => JSX.Element;
-  useValue: () => any
+  useValue: () => HookType
 }
 
-export default function ProviderGenerator (
-  buildValue: () => any,
+export default function ProviderGenerator<HookType>(
+  buildValue: () => HookType,
   contextDefaultValue = {} as any,
-): IProviderGenerator {
+): IProviderGenerator<HookType> {
   const context = createContext(contextDefaultValue);
   const provider = ({ children }: any) => (
     <context.Provider value={buildValue()}>

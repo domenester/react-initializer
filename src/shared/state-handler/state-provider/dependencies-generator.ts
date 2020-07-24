@@ -14,7 +14,7 @@ export function DependenciesGenerator<ReducerType, StateType> (
     return reducerHandler(state, action, reducers)
   };
   
-  const buildValue = (): IContextProps<ReducerType> => {
+  const buildValue = (): IContextProps<StateType> => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [state, dispatch] = useReducer(reducer, initialState());
     return { state, dispatch };
@@ -27,7 +27,7 @@ export function DependenciesGenerator<ReducerType, StateType> (
   
   const stateProvider = providerGenerated.provider;
   const context = providerGenerated.context;
-  const stateValue = providerGenerated.useValue as () => IContextProps<StateType>;
+  const stateValue = providerGenerated.useValue;
   
   return {
     stateProvider,

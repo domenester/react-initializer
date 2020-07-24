@@ -3,8 +3,7 @@ import ProviderGenerator from '../shared/provider-generator';
 import { useHistory } from 'react-router-dom';
 import { useAlertServiceValue } from './alert.service';
 
-const buildValue = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+const useBuildValue = () => {
   const alertError = useAlertServiceValue().error
 
   const {
@@ -66,7 +65,7 @@ const buildValue = () => {
   };
 }
 
-const providerGenerated = ProviderGenerator(buildValue)
+const providerGenerated = ProviderGenerator(useBuildValue)
 
 const RequestServiceProvider = providerGenerated.provider
 const RequestServiceContext = providerGenerated.context
