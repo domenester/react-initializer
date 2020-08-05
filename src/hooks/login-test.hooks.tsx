@@ -31,7 +31,6 @@ export const useLoginTest = async (
   })
   await waitFor (() => {
     expect(isAuthenticated()).toBe(!shouldFail)
-    console.log('getByTestId(sidebar-user): ', getByTestId('sidebar-user'))
     expect(getByTestId('sidebar-user')).toBeDefined()
   })
 }

@@ -4,6 +4,7 @@ import { RequestServiceProvider, useRequestServiceValue } from './request.servic
 import ProviderGenerator from '../shared/provider-generator';
 import { UserModel } from '../models';
 import { UserListStateProvider } from '../shared/state-handler';
+import { IListFilter } from '../shared/state-handler/list/user/initial-state';
 
 const buildValue = () => {
   const { post, put } = useRequestServiceValue()
@@ -13,8 +14,8 @@ const buildValue = () => {
     return data;
   }
 
-  const list = async (take: number, skip: number, filter: string) => {
-    const { data } = await post('users/list', { take, skip, filter })
+  const list = async (take: number, skip: number, filter: IListFilter | undefined) => {
+    const { data } = await post('users/list', { take, skip, ...(filter && { filter }) })
     return data;
   }
 

@@ -71,7 +71,7 @@ export default function LoginForm ({onSubmitTest}: ILoginFormProps) {
             type="button"
             onClick={() => history.push('/forgot-password')}
           >
-            Forgot Password?
+            Esqueceu a senha?
           </Link>
         </Grid>
         <Grid container item xs={12} justify='center'>
@@ -81,7 +81,7 @@ export default function LoginForm ({onSubmitTest}: ILoginFormProps) {
             type="button"
             onClick={() => history.push('/register')}
           >
-            Register
+            Registrar
           </Link>
         </Grid>
       </Grid>
