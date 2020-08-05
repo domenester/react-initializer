@@ -23,6 +23,7 @@ export const TextFilterComponent = ({
 
   useEffect(() => {
     if (search) {
+      dispatch({ type: 'resetList', payload: null})
       fetch(take, 0, false)
       handleChange('')
       setSearch(false)

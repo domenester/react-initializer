@@ -1,18 +1,15 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
 import { useUserListStateValue } from '../../state-handler'
-import { TFetch } from '../../../hooks'
-
-interface SearchFilterButtonProps {
-  fetch: TFetch
-}
+import { IFilterProps } from './filters'
 
 export const SearchFilterButton = ({
-  fetch
-}: SearchFilterButtonProps) => {
+  fetch, dispatch
+}: IFilterProps) => {
   const { state: { take } } = useUserListStateValue()
 
   const onClick = () => {
+    dispatch({ type: 'resetList', payload: null})
     fetch(take, 0, false)
   }
 

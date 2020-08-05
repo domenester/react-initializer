@@ -35,8 +35,8 @@ export const DateFilterComponent = ({
   return (
     <MuiPickersUtilsProvider locale={ptBrLocale} utils={DateFnsUtils}>
       <KeyboardDatePicker
-        style={{margin: 'auto'}}
-        minDate={minDate || null}
+        style={{margin: 'auto', width: '100%', paddingLeft: '10px', paddingRight: '10px'}}
+        minDate={minDate || undefined}
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}

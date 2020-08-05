@@ -39,7 +39,7 @@ export const FiltersComponent = ({
     <Paper className={classes.paper}>
       <Grid container spacing={1}>
         { withSearch && 
-          <Grid container item xs={12} md={6} sm={6}>
+          <Grid container item xs={12} md={6} sm={12}>
             <TextFilter
               fetch={fetch}
               dispatch={dispatch}
@@ -47,7 +47,7 @@ export const FiltersComponent = ({
           </Grid>
         }
         { withRange && 
-          <Grid container item xs={12} md={6} sm={6}>
+          <Grid container item xs={12} md={6} sm={12}>
             <DateRangeFilter
               fetch={fetch}
               dispatch={dispatch}
@@ -55,7 +55,10 @@ export const FiltersComponent = ({
           </Grid>
         }
         <Grid container item xs={12}>
-          <SearchFilterButton fetch={fetch}/>
+          <SearchFilterButton
+            fetch={fetch}
+            dispatch={dispatch}
+          />
         </Grid>
       </Grid>
     </Paper>

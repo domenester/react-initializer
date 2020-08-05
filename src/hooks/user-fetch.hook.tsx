@@ -9,7 +9,6 @@ export const useUserFetch = (): TFetch => {
   const { rows, filter } = state
 
   return async (take: number, skip: number, accumulate: boolean = true) => {
-    dispatch({ type: 'resetList', payload: null})
     const data: any = await list(take, skip, filter)
     const newRows = [ ...((accumulate && rows) || []), ...data.rows ]
     dispatch({ type: 'setRows', payload: newRows })

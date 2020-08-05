@@ -60,6 +60,7 @@ export const UserListReducers =  {
       ...state,
       rows: initialState.rows,
       pageHistory: initialState.pageHistory,
+      skip: initialState.skip,
       page: initialState.page
     }
   }

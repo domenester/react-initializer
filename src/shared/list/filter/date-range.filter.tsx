@@ -29,13 +29,13 @@ export const DateRangeFilterComponent = ({
 
   return (
     <>
-      <Grid container item xs={6}>
+      <Grid container item xs={12} sm={6} md={6}>
         <DateFilter
           label={"De"}
           setDate={handleFrom}
         />
       </Grid>
-      <Grid container item xs={6}>
+      <Grid container item xs={12} sm={6} md={6}>
         <DateFilter
           label={"Até"}
           setDate={handleTo}
