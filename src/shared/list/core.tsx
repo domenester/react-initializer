@@ -55,6 +55,7 @@ function ListComponent ({
   const handleChangeRowsPerPage = async (event: any) => {
     const value = +event.target.value
     dispatch({ type: 'setRowsPerPage', payload: value })
+    dispatch({ type: 'setPage', payload: 0 })
     if (value > rows.length) {
       dispatch({ type: 'setRows', payload: [] })
       await fetch(value, 0, false)

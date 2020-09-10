@@ -147,7 +147,17 @@ function CommonTableComponent ({
             ))}
             {emptyRows > 0 && (
               <TableRow style={{ height: 48 * emptyRows }}>
-                <TableCell colSpan={6} />
+                <TableCell colSpan={Object.keys(headers).length + 1} />
+              </TableRow>
+            )}
+            {rows.length === 0 && (
+              <TableRow>
+                <TableCell
+                  colSpan={Object.keys(headers).length + 1}
+                  style={{textAlign: 'center'}}
+                >
+                  Nenhum dado encontrado
+                </TableCell>
               </TableRow>
             )}
           </TableBody>
