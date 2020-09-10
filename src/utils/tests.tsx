@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { GlobalStateProvider } from '../shared/state-handler'
 import { Router } from 'react-router-dom'
 import { customHistory } from '../services'
 
@@ -9,11 +8,9 @@ export const renderWithRouterAndContext = (
 ) => {
   return {
     ...render(
-      <GlobalStateProvider>
-        <Router history={customHistory}> 
-          {component}
-        </Router>
-      </GlobalStateProvider>
+      <Router history={customHistory}> 
+        {component}
+      </Router>
     )
   }
 }
@@ -21,11 +18,9 @@ export const renderWithRouterAndContext = (
 export const renderWithRouterAndContextRaw = (
   component: JSX.Element
 ) => (
-  <GlobalStateProvider>
-    <Router history={customHistory}> 
-      {component}
-    </Router>
-  </GlobalStateProvider>
+  <Router history={customHistory}> 
+    {component}
+  </Router>
 )
 
 export const isNodeEnvTest = () => process.env.NODE_ENV === 'test'

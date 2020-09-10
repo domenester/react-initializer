@@ -1,7 +1,6 @@
 import React from "react"
 import MuiModal, { ModalProps as MuiModalProps } from '@material-ui/core/Modal'
 import { Paper, withStyles } from "@material-ui/core"
-import { TStyle } from '../table/types'
 import { useModalStateValue } from "../state-handler"
 import CancelIcon from '@material-ui/icons/Cancel'
 
@@ -9,7 +8,7 @@ interface ModalProps extends MuiModalProps{
   title: string
 }
 
-const styles: TStyle = (theme: any) => ({
+const styles: any = (theme: any) => ({
   modal:{
     top:'10%',
     left:'10%',
