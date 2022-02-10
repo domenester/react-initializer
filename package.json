@@ -61,7 +61,7 @@
     "@types/qs": "^6.9.1",
     "husky": "^4.2.5",
     "mutationobserver-shim": "^0.3.3",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react-test-renderer": "^16.13.1"
   }
 }
